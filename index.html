@@ -157,7 +157,7 @@
     
         <div class="post-media">
             <a target="_blank" href="/2020/08/11/docker/SkyWalking源码编译及调试/">
-                <img class="img-ajax" src="/img/loading.gif"  data-src="/img/source/docker/skywalking/15.png"   alt="SkyWalking源码编译及本地调试">
+                <img class="img-ajax" src="/img/loading.gif"  data-src="/img/source/docker/skywalking/11.png"   alt="SkyWalking源码编译及本地调试">
             </a>
         </div>
     
@@ -230,7 +230,7 @@ cd skywalking/
     
         <div class="post-media">
             <a target="_blank" href="/2020/08/11/docker/使用docker-compose搭建SkyWalking环境/">
-                <img class="img-ajax" src="/img/loading.gif"  data-src="/img/source/docker/skywalking/19.png"   alt="使用docker-compose搭建SkyWalking环境">
+                <img class="img-ajax" src="/img/loading.gif"  data-src="/img/source/docker/skywalking/7.png"   alt="使用docker-compose搭建SkyWalking环境">
             </a>
         </div>
     
@@ -353,7 +353,7 @@ SkyWalking 8.0.1
     
         <div class="post-media">
             <a target="_blank" href="/2020/04/27/alibaba/canal安装及使用-JAVA/">
-                <img class="img-ajax" src="/img/loading.gif"  data-src="/img/alibaba/canal/13.png"   alt="Alibaba canal组件的安装及使用">
+                <img class="img-ajax" src="/img/loading.gif"  data-src="/img/alibaba/canal/2.png"   alt="Alibaba canal组件的安装及使用">
             </a>
         </div>
     
@@ -731,10 +731,16 @@ SFTP是Secure File Transfer Protocol的缩写，安全文件传送协议。可�
 
 <article class="post">
     
+        <div class="post-media">
+            <a target="_blank" href="/2019/05/06/idea/使用IDEA Database Tool连接Hive数据库/">
+                <img class="img-ajax" src="/img/loading.gif"  data-src="/img/source/idea/idea_database_tool.png"   alt="通过IDEA连接Hive数据库">
+            </a>
+        </div>
+    
     <div class="post-content">
         <div class="post-head home-post-head">
             <h3 class="post-title">
-                <a href="/2019/05/06/hadoop/sqoop导入导出Mysql/" target="_blank">sqoop导入导出Mysql</a>
+                <a href="/2019/05/06/idea/使用IDEA Database Tool连接Hive数据库/" target="_blank">通过IDEA连接Hive数据库</a>
             </h3>
             <div class="post-meta">  &bull;
                 <time class="post-date" datetime="" title="">
@@ -744,8 +750,19 @@ SFTP是Secure File Transfer Protocol的缩写，安全文件传送协议。可�
         </div>
         <p class="brief">
             
-                hive命令
-12345678910111213141516171819202122show databases;     # 查看某个数据库use 数据库;            # 进入某个数据库show tables;        # 展示所有表desc 表名;            # 显示表结构show partitions 表名; # 显示表名的分区show create table_name;   # 显示创建表的结构truncate table 表名;...
+                版本介绍：
+12Idea: 2018.1hive: 1.6
+
+
+步骤如下：
+
+打开Database
+
+因为IDEA没有内置hive的驱动，所以需要自己新建一个Driver，如下图：
+ 2.1 先打开Database工具，选择Database Source Properties
+ 2.2 选择新建Driver
+ 2.3 选择后自动跳转出现新建Driver配置页面
+ 修改Name名字（命名驱动的名字，此处我命名为HIVE2） 点击+，添加hive相关驱动jar包,点击下载【...
             
         </p>
     </div>
@@ -765,7 +782,7 @@ SFTP是Secure File Transfer Protocol的缩写，安全文件传送协议。可�
             <i class="fa fa-tags"></i>
             <span class="tags-meta">
                 
-                    <a class="tag-link" href="/tags/hive/">hive</a> <a class="tag-link" href="/tags/sqoop/">sqoop</a>
+                    <a class="tag-link" href="/tags/idea/">idea</a>
                 
             </span>
         </span>
@@ -776,7 +793,7 @@ SFTP是Secure File Transfer Protocol的缩写，安全文件传送协议。可�
             </div>
 
             <div class="post-permalink">
-                <a target="_blank" href="/2019/05/06/hadoop/sqoop导入导出Mysql/" class="btn btn-default">Read</a>
+                <a target="_blank" href="/2019/05/06/idea/使用IDEA Database Tool连接Hive数据库/" class="btn btn-default">Read</a>
             </div>
         </footer>
     

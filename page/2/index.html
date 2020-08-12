@@ -155,16 +155,10 @@
 
 <article class="post">
     
-        <div class="post-media">
-            <a target="_blank" href="/2019/05/06/idea/使用IDEA Database Tool连接Hive数据库/">
-                <img class="img-ajax" src="/img/loading.gif"  data-src="/img/source/idea/idea_database_driver.png"   alt="通过IDEA连接Hive数据库">
-            </a>
-        </div>
-    
     <div class="post-content">
         <div class="post-head home-post-head">
             <h3 class="post-title">
-                <a href="/2019/05/06/idea/使用IDEA Database Tool连接Hive数据库/" target="_blank">通过IDEA连接Hive数据库</a>
+                <a href="/2019/05/06/hadoop/sqoop导入导出Mysql/" target="_blank">sqoop导入导出Mysql</a>
             </h3>
             <div class="post-meta">  &bull;
                 <time class="post-date" datetime="" title="">
@@ -174,19 +168,8 @@
         </div>
         <p class="brief">
             
-                版本介绍：
-12Idea: 2018.1hive: 1.6
-
-
-步骤如下：
-
-打开Database
-
-因为IDEA没有内置hive的驱动，所以需要自己新建一个Driver，如下图：
- 2.1 先打开Database工具，选择Database Source Properties
- 2.2 选择新建Driver
- 2.3 选择后自动跳转出现新建Driver配置页面
- 修改Name名字（命名驱动的名字，此处我命名为HIVE2） 点击+，添加hive相关驱动jar包,点击下载【...
+                hive命令
+12345678910111213141516171819202122show databases;     # 查看某个数据库use 数据库;            # 进入某个数据库show tables;        # 展示所有表desc 表名;            # 显示表结构show partitions 表名; # 显示表名的分区show create table_name;   # 显示创建表的结构truncate table 表名;...
             
         </p>
     </div>
@@ -206,7 +189,7 @@
             <i class="fa fa-tags"></i>
             <span class="tags-meta">
                 
-                    <a class="tag-link" href="/tags/idea/">idea</a>
+                    <a class="tag-link" href="/tags/hive/">hive</a> <a class="tag-link" href="/tags/sqoop/">sqoop</a>
                 
             </span>
         </span>
@@ -217,7 +200,7 @@
             </div>
 
             <div class="post-permalink">
-                <a target="_blank" href="/2019/05/06/idea/使用IDEA Database Tool连接Hive数据库/" class="btn btn-default">Read</a>
+                <a target="_blank" href="/2019/05/06/hadoop/sqoop导入导出Mysql/" class="btn btn-default">Read</a>
             </div>
         </footer>
     
@@ -400,7 +383,7 @@ Logstash安装：
     
         <div class="post-media">
             <a target="_blank" href="/2019/03/27/elk/SpringBoot2.X连接ElasticSearch集成SearchGuard/">
-                <img class="img-ajax" src="/img/loading.gif"  data-src="/img/source/elk/9386885-4314e269d4b71d7a.png"   alt="SpringBoot2.X连接ElasticSearch集成Search Guard">
+                <img class="img-ajax" src="/img/loading.gif"  data-src="/img/source/elk/9386885-86244ac304a16e2a.png"   alt="SpringBoot2.X连接ElasticSearch集成Search Guard">
             </a>
         </div>
     
@@ -459,7 +442,7 @@ Logstash安装：
     
         <div class="post-media">
             <a target="_blank" href="/2019/03/27/elk/基于SearchGuard对ElasticSearch进行权限访问控制/">
-                <img class="img-ajax" src="/img/loading.gif"  data-src="/img/source/elk/9386885-8eada28367c2edea.png"   alt="ELK之ElasticSearch 6.X安全认证Search Guard(demo01)">
+                <img class="img-ajax" src="/img/loading.gif"  data-src="/img/source/elk/9386885-54a8c4a863d0fb42.png"   alt="ELK之ElasticSearch 6.X安全认证Search Guard(demo01)">
             </a>
         </div>
     
@@ -584,7 +567,7 @@ Search Guard（安全认证）插件安装
     
         <div class="post-media">
             <a target="_blank" href="/2019/03/25/java/SpringBoot连接MongoDB(单节点)/">
-                <img class="img-ajax" src="/img/loading.gif"  data-src="/img/source/java/mongoDB01.png"   alt="SpringBoot连接MongoDB(单节点)">
+                <img class="img-ajax" src="/img/loading.gif"  data-src="/img/source/java/mongoDB02.png"   alt="SpringBoot连接MongoDB(单节点)">
             </a>
         </div>
     
