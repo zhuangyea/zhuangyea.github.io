@@ -1,0 +1,431 @@
+<!DOCTYPE HTML>
+<html lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="程序员Yz">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://zhuangyea.github.io">
+    <!--SEO-->
+
+    <meta name="keywords" content="SkyWalking">
+
+
+    <meta name="description" content="一、环境说明
+Linux Centos7
+ElasticSearch 7.8.0
+SkyWalking 8.0.1
+
+二、环境搭建
+编写docker-compose.yml文件
+1234567891011121314151617181920212223242526272829303132333...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+
+<title>使用docker-compose搭建SkyWalking环境 | 程序员Yz</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="程序员Yz" type="application/atom+xml">
+
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?13766878cde148282622871dd245a973";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <nav class="navbar navbar-default" style="background-color:#fff;border:0;margin-bottom:0"
+                     role="navigation">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target="#navbar-collapse-1">
+                            <span class="sr-only">切</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="logo" href="/">
+                            <img src="/favicon.jpg"/>叶壮的博客
+                        </a>
+                    </div>
+
+                    <div class="collapse navbar-collapse" style="border:0;" id="navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            
+                                
+                                    <li>
+                                        <a href="/about" target="_blank">
+                                            <i class="fa fa-user"></i>
+                                            关于我
+                                        </a>
+                                    </li>
+                                
+                            
+                                
+                                    <li>
+                                        <a href="/archives" target="_blank">
+                                            <i class="fa fa-archive"></i>
+                                            归档
+                                        </a>
+                                    </li>
+                                
+                            
+                        </ul>
+                        
+                            <form id="search-form" class="navbar-form navbar-right">
+                                <div class="form-group input-group">
+                                    <input type="text" id="local-search-input" class="form-control"
+                                           placeholder="Search What？"/>
+                                    <span class="input-group-btn">
+                                        <a class="btn btn-default">
+                                            <i class="fa fa-search"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                                <div id="local-search-result" class="local-search-result-cls"></div>
+                            </form>
+                        
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    
+
+<p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="使用docker-compose搭建SkyWalking环境">
+            
+                使用docker-compose搭建SkyWalking环境
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/运维/">运维</a> <a class="category-link" href="/categories/运维/SkyWalking/">SkyWalking</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/SkyWalking/">SkyWalking</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2020/08/11</span>
+        </span>
+        
+            <span class="fa-wrap">
+                <i class="fa fa-eye"></i>
+                <span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    
+</div>
+        
+        
+    </div>
+    
+    <div class="post-body post-content">
+        
+    <div class="toc-article">
+        <strong>
+            Table of Contents
+        </strong>
+        <div class="toc-content">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、环境说明"><span class="toc-text">一、环境说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、环境搭建"><span class="toc-text">二、环境搭建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、Java应用接入"><span class="toc-text">三、Java应用接入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、nginx服务接入"><span class="toc-text">四、nginx服务接入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五、题外话"><span class="toc-text">五、题外话</span></a></li></ol>
+        </div>
+    </div>
+
+
+        <h2 id="一、环境说明"><a href="#一、环境说明" class="headerlink" title="一、环境说明"></a>一、环境说明</h2><ul>
+<li>Linux Centos7</li>
+<li>ElasticSearch 7.8.0</li>
+<li>SkyWalking 8.0.1</li>
+</ul>
+<h2 id="二、环境搭建"><a href="#二、环境搭建" class="headerlink" title="二、环境搭建"></a>二、环境搭建</h2><ol>
+<li><p>编写docker-compose.yml文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">version: '3.3'</span><br><span class="line">services:</span><br><span class="line">  elasticsearch:</span><br><span class="line">    image: elasticsearch:7.8.0</span><br><span class="line">    container_name: elasticsearch</span><br><span class="line">    restart: always</span><br><span class="line">    ports:</span><br><span class="line">      - 9200:9200</span><br><span class="line">    environment:</span><br><span class="line">      discovery.type: single-node</span><br><span class="line">      TZ: Asia/Shanghai</span><br><span class="line">    #volumes:</span><br><span class="line">    #   - ./elasticsearch/logs:/usr/share/elasticsearch/logs</span><br><span class="line">    #   - ./elasticsearch/data:/usr/share/elasticsearch/data</span><br><span class="line">    #   - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml</span><br><span class="line">    ulimits:</span><br><span class="line">      memlock:</span><br><span class="line">        soft: -1</span><br><span class="line">        hard: -1</span><br><span class="line">  oap:</span><br><span class="line">    image: apache/skywalking-oap-server:8.0.1-es7</span><br><span class="line">    container_name: oap</span><br><span class="line">    depends_on:</span><br><span class="line">      - elasticsearch</span><br><span class="line">    links:</span><br><span class="line">      - elasticsearch</span><br><span class="line">    restart: always</span><br><span class="line">    ports:</span><br><span class="line">      - 11800:11800</span><br><span class="line">      - 12800:12800</span><br><span class="line">    environment:</span><br><span class="line">      SW_STORAGE: elasticsearch7  # 指定ES版本</span><br><span class="line">      SW_STORAGE_ES_CLUSTER_NODES: elasticsearch:9200</span><br><span class="line">      TZ: Asia/Shanghai</span><br><span class="line">    # volumes:</span><br><span class="line">    #  - ./config/alarm-settings.yml:/skywalking/config/alarm-settings.yml</span><br><span class="line">  ui:</span><br><span class="line">    image: apache/skywalking-ui:8.0.1</span><br><span class="line">    container_name: ui</span><br><span class="line">    depends_on:</span><br><span class="line">      - oap</span><br><span class="line">    links:</span><br><span class="line">      - oap</span><br><span class="line">    restart: always</span><br><span class="line">    ports:</span><br><span class="line">      - 8080:8080</span><br><span class="line">    environment:</span><br><span class="line">      SW_OAP_ADDRESS: oap:12800</span><br><span class="line">      TZ: Asia/Shanghai</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动docker</p>
+<p>启动容器：<code>docker-compose up -d</code></p>
+<p>查看容器：<code>docker-compose ps</code></p>
+<p>删除容器：<code>docker-compose rm</code></p>
+</li>
+<li><p>验证</p>
+<p>浏览器中输入：<a href="http://localhost:8080" target="_blank" rel="noopener">http://localhost:8080</a></p>
+</li>
+</ol>
+<h2 id="三、Java应用接入"><a href="#三、Java应用接入" class="headerlink" title="三、Java应用接入"></a>三、Java应用接入</h2><ol>
+<li><p>探针下载</p>
+<ul>
+<li><p><a href="https://www.apache.org/dyn/closer.cgi/skywalking/8.0.1/apache-skywalking-apm-es7-8.0.1.tar.gz" target="_blank" rel="noopener">apache-skywalking-apm-es7-8.0.1.tar.gz</a></p>
+</li>
+<li><p><a href="http://skywalking.apache.org/downloads/" target="_blank" rel="noopener">其他版本下载</a></p>
+</li>
+<li><p>探针目录结构<br>主要关注agent下的文件<br>– config  配置文件存放位置<br>– optional-plugins    选装插件，如果使用将jar文件移动到plugins下</p>
+<p><img src="/img/source/docker/skywalking/3.png" alt="image.png"></p>
+</li>
+</ul>
+</li>
+<li><p>idea配置探针</p>
+<p><img src="/img/source/docker/skywalking/4.png" alt="image.png"></p>
+<ul>
+<li>设置 VM options：-javaagent:/${Path}/apache-skywalking-apm-bin-es7/agent/skywalking-agent.jar</li>
+<li>设置环境变量<ul>
+<li>SW_AGENT_NAME：项目名称</li>
+<li>SW_AGENT_COLLECTOR_BACKEND_SERVICES：ip:port（oap服务地址）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<ol start="3">
+<li><p>jar配置探针</p>
+<ul>
+<li>java -jar -javaagent:/${Path}/apache-skywalking-apm-bin-es7/agent/skywalking-agent.jar  -DSW_AGENT_NAME=项目名称 demo.jar</li>
+</ul>
+</li>
+<li><p>验证</p>
+<p><img src="/img/source/docker/skywalking/5.png" alt="image.png"><br><img src="/img/source/docker/skywalking/6.png" alt="image.png"></p>
+</li>
+</ol>
+<h2 id="四、nginx服务接入"><a href="#四、nginx服务接入" class="headerlink" title="四、nginx服务接入"></a>四、nginx服务接入</h2><ol>
+<li>参考<a href="https://github.com/apache/skywalking-nginx-lua" target="_blank" rel="noopener">skywalking-nginx-lua</a>;<ul>
+<li>Nginx代理为由Nginx LUA模块提供支持的Nginx提供了本机跟踪功能</li>
+<li>我是使用openresty集成的，openresty启动时候指定skywalking-nginx-lua/examples/nginx.conf<br><img src="/img/source/docker/skywalking/7.png" alt="image.png"></li>
+<li>效果图<br><img src="/img/source/docker/skywalking/19.png" alt="image.png"><br><img src="/img/source/docker/skywalking/5.png" alt="image.png"></li>
+</ul>
+</li>
+</ol>
+<h2 id="五、题外话"><a href="#五、题外话" class="headerlink" title="五、题外话"></a>五、题外话</h2><p> 相信不只我一人(至少我再群里看到的就不下10个人)因为下面这张图片，去开源群里问如何解决<br> <img src="/img/source/docker/skywalking/19.jpg" alt="image.png"></p>
+<p> 解决方案就是因为少加了一个参数<br> <img src="/img/source/docker/skywalking/20.png" alt="image.png"></p>
+<p> 归根结底是因为不去读文档，我就是因为老英文文档读不懂，一点点的就开始不读文档了。有问题百度、谷歌搜，搜不到就问人、加群问。直到被skywalking开源大佬吴晟怼了之后，才发现自己丢失了非常重要的读文档能力。非常感谢大佬点醒我！</p>
+
+        <h2>相关文章</h2><ul><li><a href="/2020/08/11/docker/SkyWalking源码编译及调试/">SkyWalking源码编译及本地调试</a></li></ul>
+    </div>
+    
+    <div class="post-footer">
+        <div class="col-sm-10">
+            <div>
+                <b>本文链接</b>：<a href="/2020/08/11/docker/使用docker-compose搭建SkyWalking环境/" target="_blank">使用docker-compose搭建SkyWalking环境</a>
+            </div>
+            <div>
+                
+                    转载声明：本博客由叶壮创作，采用 <a href="https://creativecommons.org/licenses/by-nc-nd/3.0/" target="_blank"> CC BY 3.0 CN </a> 许可协议。可自由转载、引用，但需署名作者且注明文章出处。如转载至微信公众号，请在文末添加作者公众号二维码。
+                
+            </div>
+            <div>
+                
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <img src="/icons/wx.jpg" width=100%/>
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a target="_blank" href="/2020/08/11/docker/SkyWalking源码编译及调试/" class="pre-post btn btn-default"
+           title='SkyWalking源码编译及本地调试'>
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">SkyWalking源码编译及本地调试</span>
+        </a>
+    
+    
+        <a target="_blank" href="/2020/08/07/docker/docker环境及docker-compose环境安装/" class="next-post btn btn-default"
+           title='linux下docker环境及docker-compose环境安装'>
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">linux下docker环境及docker-compose环境安装</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+   <p>评论系统未开启，无法评论！</p>
+
+    </div>
+
+
+
+
+
+
+                </main>
+                
+    <aside class="col-md-4 sidebar">
+        
+        
+    <div class="widget">
+        <h3 class="title">Categories</h3>
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Python/"><i class="fa" aria-hidden="true">Python</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品文档/"><i class="fa" aria-hidden="true">产品文档</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/"><i class="fa" aria-hidden="true">前端</i></a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link current" href="/categories/运维/"><i class="fa" aria-hidden="true">运维</i></a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link current" href="/categories/运维/SkyWalking/"><i class="fa" aria-hidden="true">SkyWalking</i></a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/docker/"><i class="fa" aria-hidden="true">docker</i></a><span class="category-list-count">1</span></li></ul></li></ul>
+    </div>
+
+
+        
+        
+  <div class="widget">
+    <h3 class="title">Tag Cloud</h3>
+    <div class="content tag-cloud">
+        
+            <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/SkyWalking/" style="font-size: 13.33px;">SkyWalking</a> <a href="/tags/SpringBoot/" style="font-size: 10px;">SpringBoot</a> <a href="/tags/alibaba/" style="font-size: 10px;">alibaba</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/elk/" style="font-size: 16.67px;">elk</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/html/" style="font-size: 13.33px;">html</a> <a href="/tags/idea/" style="font-size: 10px;">idea</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/sqoop/" style="font-size: 10px;">sqoop</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a>
+        
+    </div>
+  </div>
+
+
+        
+        
+
+        
+    </aside>
+
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+        Total:
+        <strong id="busuanzi_value_site_pv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; | &nbsp;
+        Visitors:
+        <strong id="busuanzi_value_site_uv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; <strong>Since 2018-12-26</strong>
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/itmuch/hexo-theme-itmuch.git" class="copyright-links" target="_blank" rel="nofollow">ITMuch</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/bootstrap-hover-dropdown.min.js"></script>
+
+	<script src="/js/search.js?rev=@@hash"></script>
+
+
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,424 @@
+<!DOCTYPE HTML>
+<html lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="程序员Yz">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://zhuangyea.github.io">
+    <!--SEO-->
+
+    <meta name="keywords" content="elk">
+
+
+    <meta name="description" content="
+Logstash安装：
+
+下载安装包：wget https://artifacts.elastic.co/downloads/logstash/logstash-6.6.2.tar.gz
+下载mysql的连接库jar包(版本库)：wget http://central.maven.org/m...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+
+<title>Logstash实现mysql同步数据到elasticsearch | 程序员Yz</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="程序员Yz" type="application/atom+xml">
+
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?13766878cde148282622871dd245a973";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <nav class="navbar navbar-default" style="background-color:#fff;border:0;margin-bottom:0"
+                     role="navigation">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target="#navbar-collapse-1">
+                            <span class="sr-only">切</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="logo" href="/">
+                            <img src="/favicon.jpg"/>叶壮的博客
+                        </a>
+                    </div>
+
+                    <div class="collapse navbar-collapse" style="border:0;" id="navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            
+                                
+                                    <li>
+                                        <a href="/about" target="_blank">
+                                            <i class="fa fa-user"></i>
+                                            关于我
+                                        </a>
+                                    </li>
+                                
+                            
+                                
+                                    <li>
+                                        <a href="/archives" target="_blank">
+                                            <i class="fa fa-archive"></i>
+                                            归档
+                                        </a>
+                                    </li>
+                                
+                            
+                        </ul>
+                        
+                            <form id="search-form" class="navbar-form navbar-right">
+                                <div class="form-group input-group">
+                                    <input type="text" id="local-search-input" class="form-control"
+                                           placeholder="Search What？"/>
+                                    <span class="input-group-btn">
+                                        <a class="btn btn-default">
+                                            <i class="fa fa-search"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                                <div id="local-search-result" class="local-search-result-cls"></div>
+                            </form>
+                        
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    
+
+<p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="Logstash实现mysql同步数据到elasticsearch">
+            
+                Logstash实现mysql同步数据到elasticsearch
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/elk/">elk</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2019/03/28</span>
+        </span>
+        
+            <span class="fa-wrap">
+                <i class="fa fa-eye"></i>
+                <span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    
+</div>
+        
+        
+    </div>
+    
+    <div class="post-body post-content">
+        
+    <div class="toc-article">
+        <strong>
+            Table of Contents
+        </strong>
+        <div class="toc-content">
+            <ol class="toc"><li class="toc-item toc-level-6"><a class="toc-link" href="#注意添加ElasticSearch用户名和密码"><span class="toc-text">注意添加ElasticSearch用户名和密码</span></a></li></ol>
+        </div>
+    </div>
+
+
+        <ol>
+<li><p>Logstash安装：</p>
+<ol>
+<li>下载安装包：<code>wget https://artifacts.elastic.co/downloads/logstash/logstash-6.6.2.tar.gz</code></li>
+<li>下载mysql的连接库jar包(<a href="https://mvnrepository.com/artifact/mysql/mysql-connector-java" target="_blank" rel="noopener">版本库</a>)：<code>wget http://central.maven.org/maven2/mysql/mysql-connector-java/6.0.6/mysql-connector-java-6.0.6.jar</code></li>
+<li>解压安装包：<code>tar -xvf logstash-6.6.2.tar.gz</code></li>
+<li>安装jdbc、elasticsearch插件:<br><img src="/img/source/elk/9386885-52b34b240975bea6.png" alt="image.png"><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">logstash插件安装命令</span><br><span class="line">cd logstash-6.6.2/bin</span><br><span class="line">./logstash-plugin install logstash-input-jdbc</span><br><span class="line">./logstash-plugin install logstash-output-elasticsearch</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>创建配置文件<br>在config目录下，创建配置文件（logstash-mysql-es.conf）： </p>
+<pre><code>input {
+# stdin { }
+ jdbc {
+     jdbc_connection_string =&gt; &quot;jdbc:mysql://localhost:30012/data_acquisition?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true&quot;
+
+     jdbc_user =&gt; &quot;root&quot;
+
+     jdbc_password =&gt; &quot;123456&quot;
+
+     jdbc_driver_library =&gt; &quot;/path/mysql-connector-java-6.0.6.jar&quot; #全路径
+
+     jdbc_driver_class =&gt; &quot;com.mysql.jdbc.Driver&quot;
+
+     jdbc_paging_enabled =&gt; &quot;true&quot;
+
+     jdbc_page_size =&gt; &quot;50000&quot;
+
+     statement =&gt; &quot;select * from result_comment where create_time &gt;= &apos;2019-03-20&apos;&quot;
+     #schedule =&gt; &quot;* * * * *&quot;
+ }
+}
+
+output {
+  # 这里输出调试，正式运行时可以注释掉
+  stdout {
+     codec =&gt; json_lines
+ }
+ elasticsearch {
+     hosts =&gt; &quot;127.0.0.1:9200&quot;
+     index =&gt; &quot;wl_travel_analyze&quot;
+     document_type =&gt; &quot;travel&quot;
+     document_id =&gt; &quot;%{id}&quot;
+     #ssl =&gt; true
+     #ssl_certificate_verification =&gt; true
+     #truststore =&gt; &quot;/opt/elk/search-guard-tlstool/search-guard-certificates/truststore.jks&quot;
+     #truststore_password =&gt; &quot;286a7b7a8970af4e8467&quot;
+     user =&gt; &quot;admin&quot;
+     password =&gt; &quot;admin&quot;
+ }
+}</code></pre><h6 id="注意添加ElasticSearch用户名和密码"><a href="#注意添加ElasticSearch用户名和密码" class="headerlink" title="注意添加ElasticSearch用户名和密码"></a>注意添加ElasticSearch用户名和密码</h6></li>
+<li><p>启动改脚本<br><code>nohup ./bin/logstash -f config/logstash-mysql-es.conf &gt; logs/logstash.out &amp;</code></p>
+</li>
+<li><p>查看日志<br><code>tail -f logs/logstash.out</code></p>
+</li>
+</ol>
+<blockquote>
+<p>借鉴文章如下:<br><a href="https://my.oschina.net/xiaowangqiongyou/blog/1812708" target="_blank" rel="noopener">Elasticsearch - Logstash实现mysql同步数据到elasticsearch</a></p>
+</blockquote>
+
+        <h2>相关文章</h2><ul><li><a href="/2019/03/27/elk/SpringBoot2.X连接ElasticSearch集成SearchGuard/">SpringBoot2.X连接ElasticSearch集成Search Guard</a></li><li><a href="/2019/03/27/elk/基于SearchGuard对ElasticSearch进行权限访问控制/">ELK之ElasticSearch 6.X安全认证Search Guard(demo01)</a></li><li><a href="/2019/03/25/elk/ElasticSearch插件SearchGuard及IK安装/">ElasticSearch插件SearchGuard/IK安装</a></li></ul>
+    </div>
+    
+    <div class="post-footer">
+        <div class="col-sm-10">
+            <div>
+                <b>本文链接</b>：<a href="/2019/03/28/elk/Logstash实现mysql同步数据到elasticsearch/" target="_blank">Logstash实现mysql同步数据到elasticsearch</a>
+            </div>
+            <div>
+                
+                    转载声明：本博客由叶壮创作，采用 <a href="https://creativecommons.org/licenses/by-nc-nd/3.0/" target="_blank"> CC BY 3.0 CN </a> 许可协议。可自由转载、引用，但需署名作者且注明文章出处。如转载至微信公众号，请在文末添加作者公众号二维码。
+                
+            </div>
+            <div>
+                
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <img src="/icons/wx.jpg" width=100%/>
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a target="_blank" href="/2019/04/24/java/多数据源切换/" class="pre-post btn btn-default"
+           title='多数据源切换.md'>
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">多数据源切换.md</span>
+        </a>
+    
+    
+        <a target="_blank" href="/2019/03/27/elk/SpringBoot2.X连接ElasticSearch集成SearchGuard/" class="next-post btn btn-default"
+           title='SpringBoot2.X连接ElasticSearch集成Search Guard'>
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">SpringBoot2.X连接ElasticSearch集成Search Guard</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+   <p>评论系统未开启，无法评论！</p>
+
+    </div>
+
+
+
+
+
+
+                </main>
+                
+    <aside class="col-md-4 sidebar">
+        
+        
+    <div class="widget">
+        <h3 class="title">Categories</h3>
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Python/"><i class="fa" aria-hidden="true">Python</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品文档/"><i class="fa" aria-hidden="true">产品文档</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/"><i class="fa" aria-hidden="true">前端</i></a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/"><i class="fa" aria-hidden="true">运维</i></a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/运维/SkyWalking/"><i class="fa" aria-hidden="true">SkyWalking</i></a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/docker/"><i class="fa" aria-hidden="true">docker</i></a><span class="category-list-count">1</span></li></ul></li></ul>
+    </div>
+
+
+        
+        
+  <div class="widget">
+    <h3 class="title">Tag Cloud</h3>
+    <div class="content tag-cloud">
+        
+            <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/SkyWalking/" style="font-size: 13.33px;">SkyWalking</a> <a href="/tags/SpringBoot/" style="font-size: 10px;">SpringBoot</a> <a href="/tags/alibaba/" style="font-size: 10px;">alibaba</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/elk/" style="font-size: 16.67px;">elk</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/html/" style="font-size: 13.33px;">html</a> <a href="/tags/idea/" style="font-size: 10px;">idea</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/sqoop/" style="font-size: 10px;">sqoop</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a>
+        
+    </div>
+  </div>
+
+
+        
+        
+
+        
+    </aside>
+
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+        Total:
+        <strong id="busuanzi_value_site_pv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; | &nbsp;
+        Visitors:
+        <strong id="busuanzi_value_site_uv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; <strong>Since 2018-12-26</strong>
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/itmuch/hexo-theme-itmuch.git" class="copyright-links" target="_blank" rel="nofollow">ITMuch</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/bootstrap-hover-dropdown.min.js"></script>
+
+	<script src="/js/search.js?rev=@@hash"></script>
+
+
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+
+
+</body>
+</html>

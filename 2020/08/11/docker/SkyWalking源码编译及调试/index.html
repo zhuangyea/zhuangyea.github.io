@@ -1,0 +1,437 @@
+<!DOCTYPE HTML>
+<html lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="程序员Yz">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://zhuangyea.github.io">
+    <!--SEO-->
+
+    <meta name="keywords" content="SkyWalking">
+
+
+    <meta name="description" content="一、环境说明
+Linux Centos7
+ElasticSearch 7.8.0
+SkyWalking 8.0.1
+JDK 1.8
+Idea 2020.01
+
+二、从 GitHub 构建
+预备好 Git, JDK8 以及 Maven3
+
+git clone https://github.com...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+
+<title>SkyWalking源码编译及本地调试 | 程序员Yz</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="程序员Yz" type="application/atom+xml">
+
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?13766878cde148282622871dd245a973";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <nav class="navbar navbar-default" style="background-color:#fff;border:0;margin-bottom:0"
+                     role="navigation">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target="#navbar-collapse-1">
+                            <span class="sr-only">切</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="logo" href="/">
+                            <img src="/favicon.jpg"/>叶壮的博客
+                        </a>
+                    </div>
+
+                    <div class="collapse navbar-collapse" style="border:0;" id="navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            
+                                
+                                    <li>
+                                        <a href="/about" target="_blank">
+                                            <i class="fa fa-user"></i>
+                                            关于我
+                                        </a>
+                                    </li>
+                                
+                            
+                                
+                                    <li>
+                                        <a href="/archives" target="_blank">
+                                            <i class="fa fa-archive"></i>
+                                            归档
+                                        </a>
+                                    </li>
+                                
+                            
+                        </ul>
+                        
+                            <form id="search-form" class="navbar-form navbar-right">
+                                <div class="form-group input-group">
+                                    <input type="text" id="local-search-input" class="form-control"
+                                           placeholder="Search What？"/>
+                                    <span class="input-group-btn">
+                                        <a class="btn btn-default">
+                                            <i class="fa fa-search"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                                <div id="local-search-result" class="local-search-result-cls"></div>
+                            </form>
+                        
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    
+
+<p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="SkyWalking源码编译及本地调试">
+            
+                SkyWalking源码编译及本地调试
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/运维/">运维</a> <a class="category-link" href="/categories/运维/SkyWalking/">SkyWalking</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/SkyWalking/">SkyWalking</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2020/08/11</span>
+        </span>
+        
+            <span class="fa-wrap">
+                <i class="fa fa-eye"></i>
+                <span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    
+</div>
+        
+        
+    </div>
+    
+    <div class="post-body post-content">
+        
+    <div class="toc-article">
+        <strong>
+            Table of Contents
+        </strong>
+        <div class="toc-content">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、环境说明"><span class="toc-text">一、环境说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、从-GitHub-构建"><span class="toc-text">二、从 GitHub 构建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、本地调试"><span class="toc-text">三、本地调试</span></a></li></ol>
+        </div>
+    </div>
+
+
+        <h2 id="一、环境说明"><a href="#一、环境说明" class="headerlink" title="一、环境说明"></a>一、环境说明</h2><ul>
+<li>Linux Centos7</li>
+<li>ElasticSearch 7.8.0</li>
+<li>SkyWalking 8.0.1</li>
+<li>JDK 1.8</li>
+<li>Idea 2020.01</li>
+</ul>
+<h2 id="二、从-GitHub-构建"><a href="#二、从-GitHub-构建" class="headerlink" title="二、从 GitHub 构建"></a>二、从 GitHub 构建</h2><ol>
+<li><p>预备好 Git, JDK8 以及 Maven3</p>
+</li>
+<li><p><code>git clone https://github.com/apache/skywalking.git</code></p>
+</li>
+<li><p><code>cd skywalking/</code></p>
+</li>
+<li><p>使用 <code>git checkout [tagname]</code> 切换到指定的 tag (可选的, 只有当你想编译某个特定版本的代码时才需要)</p>
+</li>
+<li><p><code>git submodule init</code></p>
+</li>
+<li><p><code>git submodule update</code></p>
+</li>
+<li><p>这步可忽略。下载maven、npm包慢以及Mac权限问题所以我修改了代码</p>
+<ol>
+<li><p>Makefile：增加 –settings=/Users/yezhuang/Documents/software/maven/apache-maven-3.6.0/conf/settings.xml<br> <img src="/img/source/docker/skywalking/8.png" alt="image.png"></p>
+</li>
+<li><p>apm-webapp/pom.xml：增加 –registry=<a href="https://registry.npm.taobao.org" target="_blank" rel="noopener">https://registry.npm.taobao.org</a> –unsafe-perm</p>
+<ul>
+<li>–unsafe-perm解决mac权限问题</li>
+</ul>
+<p><img src="/img/source/docker/skywalking/9.png" alt="image.png"></p>
+</li>
+</ol>
+</li>
+<li><p>这步可忽略。要求变更logo图标</p>
+<ol>
+<li>skywalking-ui/src/components/rk-header.vue<br> <img src="/img/source/docker/skywalking/10.png" alt="image.png"></li>
+</ol>
+</li>
+<li><p>编译及打包</p>
+<ol>
+<li>运行 <code>./mvnw clean package -DskipTests</code></li>
+<li>docker镜像打包：export HUB=skywalking &amp;&amp; export TAG=8.0.1 &amp;&amp; export ES_VERSION=es7 &amp;&amp; export SKIP_TEST=true &amp;&amp; make docker</li>
+</ol>
+</li>
+<li><p>所有打出来的包都在目录 <code>/dist</code> 下 (Linux 下为 .tar.gz, Windows 下为 .zip)</p>
+</li>
+<li><p>如果是打docker镜像包，通过docker images查看</p>
+<p> <img src="/img/source/docker/skywalking/11.png" alt="images.png"></p>
+</li>
+</ol>
+<h2 id="三、本地调试"><a href="#三、本地调试" class="headerlink" title="三、本地调试"></a>三、本地调试</h2><ol>
+<li><p>创建测试工程<br><img src="/img/source/docker/skywalking/12.png" alt="images.png"></p>
+</li>
+<li><p>在同一工程中通过导入 module 方式到 skywalking<br><img src="/img/source/docker/skywalking/13.png" alt="images.png"></p>
+</li>
+<li><p>导入 skywalking 工程<br><img src="/img/source/docker/skywalking/14.png" alt="images.png"></p>
+</li>
+<li><p>在联调工程的 JVM 参数中指定 skywalking 编译结果目录<br><img src="/img/source/docker/skywalking/4.png" alt="images.png"></p>
+</li>
+<li><p>启动工程调试（在需要调试的代码上打断点）<br><img src="/img/source/docker/skywalking/15.png" alt="images.png"></p>
+</li>
+<li><p>验证，我增加了制定消息头</p>
+<ol>
+<li><p>页面请求<br><img src="/img/source/docker/skywalking/16.png" alt="images.png"></p>
+</li>
+<li><p>skywalking页面<br><img src="/img/source/docker/skywalking/18.png" alt="images.png"></p>
+</li>
+</ol>
+</li>
+</ol>
+<blockquote>
+<p>借鉴文章如下(如果涉及侵权，请联系作者进行删除、修改):<br><a href="https://github.com/apache/skywalking/blob/master/docs/en/guides/How-to-build.md" target="_blank" rel="noopener">官网构建</a><br><a href="https://skyapm.github.io/document-cn-translation-of-skywalking/zh/8.0.0/guides/How-to-build.html" target="_blank" rel="noopener">社区中文版</a><br><a href="https://tianjunwei.blog.csdn.net/article/details/107236594" target="_blank" rel="noopener">skywalking 开发环境编译及联调</a></p>
+</blockquote>
+
+        <h2>相关文章</h2><ul><li><a href="/2020/08/11/docker/使用docker-compose搭建SkyWalking环境/">使用docker-compose搭建SkyWalking环境</a></li></ul>
+    </div>
+    
+    <div class="post-footer">
+        <div class="col-sm-10">
+            <div>
+                <b>本文链接</b>：<a href="/2020/08/11/docker/SkyWalking源码编译及调试/" target="_blank">SkyWalking源码编译及本地调试</a>
+            </div>
+            <div>
+                
+                    转载声明：本博客由叶壮创作，采用 <a href="https://creativecommons.org/licenses/by-nc-nd/3.0/" target="_blank"> CC BY 3.0 CN </a> 许可协议。可自由转载、引用，但需署名作者且注明文章出处。如转载至微信公众号，请在文末添加作者公众号二维码。
+                
+            </div>
+            <div>
+                
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <img src="/icons/wx.jpg" width=100%/>
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+    
+        <a target="_blank" href="/2020/08/11/docker/使用docker-compose搭建SkyWalking环境/" class="next-post btn btn-default"
+           title='使用docker-compose搭建SkyWalking环境'>
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">使用docker-compose搭建SkyWalking环境</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+   <p>评论系统未开启，无法评论！</p>
+
+    </div>
+
+
+
+
+
+
+                </main>
+                
+    <aside class="col-md-4 sidebar">
+        
+        
+    <div class="widget">
+        <h3 class="title">Categories</h3>
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Python/"><i class="fa" aria-hidden="true">Python</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品文档/"><i class="fa" aria-hidden="true">产品文档</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/"><i class="fa" aria-hidden="true">前端</i></a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link current" href="/categories/运维/"><i class="fa" aria-hidden="true">运维</i></a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link current" href="/categories/运维/SkyWalking/"><i class="fa" aria-hidden="true">SkyWalking</i></a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/docker/"><i class="fa" aria-hidden="true">docker</i></a><span class="category-list-count">1</span></li></ul></li></ul>
+    </div>
+
+
+        
+        
+  <div class="widget">
+    <h3 class="title">Tag Cloud</h3>
+    <div class="content tag-cloud">
+        
+            <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/SkyWalking/" style="font-size: 13.33px;">SkyWalking</a> <a href="/tags/SpringBoot/" style="font-size: 10px;">SpringBoot</a> <a href="/tags/alibaba/" style="font-size: 10px;">alibaba</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/elk/" style="font-size: 16.67px;">elk</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/html/" style="font-size: 13.33px;">html</a> <a href="/tags/idea/" style="font-size: 10px;">idea</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/sqoop/" style="font-size: 10px;">sqoop</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a>
+        
+    </div>
+  </div>
+
+
+        
+        
+
+        
+    </aside>
+
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+        Total:
+        <strong id="busuanzi_value_site_pv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; | &nbsp;
+        Visitors:
+        <strong id="busuanzi_value_site_uv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; <strong>Since 2018-12-26</strong>
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/itmuch/hexo-theme-itmuch.git" class="copyright-links" target="_blank" rel="nofollow">ITMuch</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/bootstrap-hover-dropdown.min.js"></script>
+
+	<script src="/js/search.js?rev=@@hash"></script>
+
+
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+
+
+</body>
+</html>

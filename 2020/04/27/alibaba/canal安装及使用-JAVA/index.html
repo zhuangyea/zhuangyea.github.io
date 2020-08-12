@@ -1,0 +1,526 @@
+<!DOCTYPE HTML>
+<html lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="程序员Yz">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://zhuangyea.github.io">
+    <!--SEO-->
+
+    <meta name="keywords" content="java,alibaba">
+
+
+    <meta name="description" content="一、前言：环境准备   蓝色字体可点击，安装包下载
+
+Linux
+MySql 5.7
+canal 1.1.4
+canal-admin 1.1.4
+kafka_2.12-2.5.0
+apache-zookeeper-3.6.0
+
+
+二、名词解释
+canal [kə’næl]，译意为水道/管道/沟...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+
+<title>Alibaba canal组件的安装及使用 | 程序员Yz</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="程序员Yz" type="application/atom+xml">
+
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?13766878cde148282622871dd245a973";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <nav class="navbar navbar-default" style="background-color:#fff;border:0;margin-bottom:0"
+                     role="navigation">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target="#navbar-collapse-1">
+                            <span class="sr-only">切</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="logo" href="/">
+                            <img src="/favicon.jpg"/>叶壮的博客
+                        </a>
+                    </div>
+
+                    <div class="collapse navbar-collapse" style="border:0;" id="navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            
+                                
+                                    <li>
+                                        <a href="/about" target="_blank">
+                                            <i class="fa fa-user"></i>
+                                            关于我
+                                        </a>
+                                    </li>
+                                
+                            
+                                
+                                    <li>
+                                        <a href="/archives" target="_blank">
+                                            <i class="fa fa-archive"></i>
+                                            归档
+                                        </a>
+                                    </li>
+                                
+                            
+                        </ul>
+                        
+                            <form id="search-form" class="navbar-form navbar-right">
+                                <div class="form-group input-group">
+                                    <input type="text" id="local-search-input" class="form-control"
+                                           placeholder="Search What？"/>
+                                    <span class="input-group-btn">
+                                        <a class="btn btn-default">
+                                            <i class="fa fa-search"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                                <div id="local-search-result" class="local-search-result-cls"></div>
+                            </form>
+                        
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    
+
+<p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="Alibaba canal组件的安装及使用">
+            
+                Alibaba canal组件的安装及使用
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/alibaba/">alibaba</a> <a class="tag-link" href="/tags/java/">java</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2020/04/27</span>
+        </span>
+        
+            <span class="fa-wrap">
+                <i class="fa fa-eye"></i>
+                <span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    
+</div>
+        
+        
+    </div>
+    
+    <div class="post-body post-content">
+        
+    <div class="toc-article">
+        <strong>
+            Table of Contents
+        </strong>
+        <div class="toc-content">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、前言：环境准备"><span class="toc-text">一、前言：环境准备</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、名词解释"><span class="toc-text">二、名词解释</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三、canal-SpringBoot模式"><span class="toc-text">三、canal + SpringBoot模式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-canal准备"><span class="toc-text">3.1 canal准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-canal启动"><span class="toc-text">3.2 canal启动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-让canal成为SpringBoot组件"><span class="toc-text">3.3 让canal成为SpringBoot组件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#四、canal-canal-admin-MQ模式（单节点）"><span class="toc-text">四、canal + canal-admin + MQ模式（单节点）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-canal-admin准备"><span class="toc-text">4.1 canal-admin准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-canal-server启动"><span class="toc-text">4.2 canal-server启动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-webUI的使用"><span class="toc-text">4.3 webUI的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4-测试"><span class="toc-text">4.4 测试</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#五、至此单节点canal秘籍已练成！开森"><span class="toc-text">五、至此单节点canal秘籍已练成！开森</span></a></li></ol>
+        </div>
+    </div>
+
+
+        <h1 id="一、前言：环境准备"><a href="#一、前言：环境准备" class="headerlink" title="一、前言：环境准备"></a>一、前言：环境准备</h1><p>   蓝色字体可点击，安装包下载</p>
+<ul>
+<li>Linux</li>
+<li>MySql 5.7</li>
+<li><a href="https://github.com/alibaba/canal/releases/download/canal-1.1.4/canal.deployer-1.1.4.tar.gz" target="_blank" rel="noopener">canal 1.1.4</a></li>
+<li><a href="https://github.com/alibaba/canal/releases/download/canal-1.1.4/canal.admin-1.1.4.tar.gz" target="_blank" rel="noopener">canal-admin 1.1.4</a></li>
+<li><a href="https://www.apache.org/dyn/closer.cgi?path=/kafka/2.5.0/kafka_2.12-2.5.0.tgz" target="_blank" rel="noopener">kafka_2.12-2.5.0</a></li>
+<li><a href="https://downloads.apache.org/zookeeper/zookeeper-3.6.0/apache-zookeeper-3.6.0-bin.tar.gz" target="_blank" rel="noopener">apache-zookeeper-3.6.0</a></li>
+</ul>
+<hr>
+<h1 id="二、名词解释"><a href="#二、名词解释" class="headerlink" title="二、名词解释"></a>二、名词解释</h1><ul>
+<li><strong><a href="https://github.com/alibaba/canal/wiki/QuickStart" target="_blank" rel="noopener">canal</a></strong> [kə’næl]，译意为水道/管道/沟渠，主要用途是基于 MySQL 数据库增量日志解析，提供增量数据订阅和消费</li>
+<li><strong><a href="https://github.com/alibaba/canal/wiki/Canal-Admin-Guide" target="_blank" rel="noopener">canal-admin</a></strong> 设计上是为canal提供整体配置管理、节点运维等面向运维的功能，提供相对友好的WebUI操作界面，方便更多用户快速和安全的操作</li>
+<li><strong><a href="https://github.com/alibaba/canal/wiki/Canal-Kafka-RocketMQ-QuickStart" target="_blank" rel="noopener">Canal Kafka RocketMQ QuickStart</a></strong> canal 1.1.1版本之后, 默认支持将canal server接收到的binlog数据直接投递到MQ, 目前默认支持的MQ系统有:<ul>
+<li>kafka: <a href="https://github.com/apache/kafka" target="_blank" rel="noopener">https://github.com/apache/kafka</a></li>
+<li>RocketMQ : <a href="https://github.com/apache/rocketmq" target="_blank" rel="noopener">https://github.com/apache/rocketmq</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="三、canal-SpringBoot模式"><a href="#三、canal-SpringBoot模式" class="headerlink" title="三、canal + SpringBoot模式"></a>三、canal + SpringBoot模式</h1><h2 id="3-1-canal准备"><a href="#3-1-canal准备" class="headerlink" title="3.1 canal准备"></a>3.1 canal准备</h2><hr>
+<ul>
+<li><p>对于自建 MySQL , 需要先开启 Binlog 写入功能，配置 binlog-format 为 ROW 模式，my.cnf 中配置如下</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">log-bin=mysql-bin # 开启 binlog</span><br><span class="line">binlog-format=ROW # 选择 ROW 模式</span><br><span class="line">server_id=1 # 配置 MySQL replaction 需要定义，不要和 canal 的 slaveId 重复</span><br></pre></td></tr></table></figure>
+
+<p>  注意：针对阿里云 RDS for MySQL , 默认打开了 binlog , 并且账号默认具有 binlog dump 权限 , 不需要任何权限或者 binlog 设置,可以直接跳过这一步</p>
+</li>
+<li><p>授权 canal 链接 MySQL 账号具有作为 MySQL slave 的权限, 如果已有账户可直接 grant</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CREATE USER canal IDENTIFIED BY &apos;canal&apos;;  </span><br><span class="line">GRANT SELECT, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO &apos;canal&apos;@&apos;%&apos;;</span><br><span class="line">-- GRANT ALL PRIVILEGES ON *.* TO &apos;canal&apos;@&apos;%&apos; ;</span><br><span class="line">FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="3-2-canal启动"><a href="#3-2-canal启动" class="headerlink" title="3.2 canal启动"></a>3.2 canal启动</h2><hr>
+<ul>
+<li><p>下载 canal, 访问 release 页面 , 选择需要的包下载, 如以 1.1.4 版本为例<br>  wget <a href="https://github.com/alibaba/canal/releases/download/canal-1.1.4/canal.deployer-1.1.4.tar.gz" target="_blank" rel="noopener">https://github.com/alibaba/canal/releases/download/canal-1.1.4/canal.deployer-1.1.4.tar.gz</a></p>
+</li>
+<li><p>解压完成后，进入 canal 目录，可以看到如下结构<br>  <img src="/img/alibaba/canal/1.png" alt="image" title="我是图片描述"></p>
+</li>
+<li><p>配置修改</p>
+<pre><code>vim conf/example/instance.properties
+
+#position info，需要改成自己的数据库信息
+canal.instance.master.address = 127.0.0.1:3306 
+canal.instance.dbUsername = root  
+canal.instance.dbPassword = 123456
+# mq config
+canal.mq.topic=mytopic</code></pre></li>
+<li><p>启动<br>  sh bin/startup.sh</p>
+</li>
+<li><p>查看 server 日志<br>  tail -f logs/canal/canal.log</p>
+</li>
+<li><p>查看 instance 的日志<br>  tail -f logs/example/example.log</p>
+</li>
+<li><p>关闭<br>  sh bin/stop.sh</p>
+</li>
+</ul>
+<h2 id="3-3-让canal成为SpringBoot组件"><a href="#3-3-让canal成为SpringBoot组件" class="headerlink" title="3.3 让canal成为SpringBoot组件"></a>3.3 <a href="https://blog.csdn.net/u013930425/article/details/80507201" target="_blank" rel="noopener">让canal成为SpringBoot组件</a></h2><hr>
+<ul>
+<li><p>下载SpringBoot canal项目 <a href="https://github.com/wanwujiedao/spring-boot-starter-canal" target="_blank" rel="noopener">项目地址</a><br>  <img src="/img/alibaba/canal/2.png" alt="image" title="我是图片描述"></p>
+</li>
+<li><p>修改配置文件<br>  canal-test/application.properties<br>  <img src="/img/alibaba/canal/3.png" alt="image" title="我是图片描述"><br>  <em>注意</em>：红框中的配置要与canal配置文件instance.properties所在目录匹配</p>
+</li>
+<li><p>启动canal-test<br>  <img src="/img/alibaba/canal/4.png" alt="image" title="我是图片描述"></p>
+</li>
+<li><p>测试，修改本地库数据，查看控制台<br>  <img src="/img/alibaba/canal/5.png" alt="image" title="我是图片描述"></p>
+</li>
+</ul>
+<hr>
+<h1 id="四、canal-canal-admin-MQ模式（单节点）"><a href="#四、canal-canal-admin-MQ模式（单节点）" class="headerlink" title="四、canal + canal-admin + MQ模式（单节点）"></a>四、canal + canal-admin + MQ模式（单节点）</h1><p><em>zookeeper+kafka安装过程省略</em></p>
+<h2 id="4-1-canal-admin准备"><a href="#4-1-canal-admin准备" class="headerlink" title="4.1 canal-admin准备"></a>4.1 canal-admin准备</h2><hr>
+<ul>
+<li><p>canal-admin的限定依赖：</p>
+<ul>
+<li>MySQL，用于存储配置和节点等相关数据</li>
+<li>canal版本，要求&gt;=1.1.4 (需要依赖canal-server提供面向admin的动态运维管理接口)</li>
+</ul>
+</li>
+<li><p>部署</p>
+<ol>
+<li><p>下载 canal-admin, 访问 release 页面 , 选择需要的包下载, 如以 1.1.4 版本为例</p>
+</li>
+<li><p>wget <a href="https://github.com/alibaba/canal/releases/download/canal-1.1.4/canal.admin-1.1.4.tar.gz" target="_blank" rel="noopener">https://github.com/alibaba/canal/releases/download/canal-1.1.4/canal.admin-1.1.4.tar.gz</a></p>
+</li>
+<li><p>解压完成后，进入 canal-admin 目录，可以看到如下结构<br><img src="/img/alibaba/canal/6.png" alt="image" title="我是图片描述"></p>
+</li>
+<li><p>配置修改<br>vim conf/application.yml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">  port: 8089</span><br><span class="line">spring:</span><br><span class="line">  jackson:</span><br><span class="line">    date-format: yyyy-MM-dd HH:mm:ss</span><br><span class="line">    time-zone: GMT+8</span><br><span class="line"></span><br><span class="line">spring.datasource:</span><br><span class="line">  address: 127.0.0.1:3306</span><br><span class="line">  database: canal_manager</span><br><span class="line">  username: canal</span><br><span class="line">  password: canal</span><br><span class="line">  driver-class-name: com.mysql.jdbc.Driver</span><br><span class="line">  url: jdbc:mysql://$&#123;spring.datasource.address&#125;/$&#123;spring.datasource.database&#125;?useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=false</span><br><span class="line">  hikari:</span><br><span class="line">    maximum-pool-size: 30</span><br><span class="line">    minimum-idle: 1</span><br><span class="line"></span><br><span class="line">canal:</span><br><span class="line">  adminUser: admin</span><br><span class="line">  adminPasswd: 123456</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>初始化元数据库</p>
+<pre><code>mysql -h127.1 -uroot -p
+# 导入初始化SQL
+&gt; source conf/canal_manager.sql</code></pre></li>
+<li><p>启动<br>sh bin/startup.sh</p>
+</li>
+<li><p>查看 admin 日志<br>tail -f logs/admin.log</p>
+<p>此时代表canal-admin已经启动成功，可以通过 <a href="http://127.0.0.1:8089/" target="_blank" rel="noopener">http://127.0.0.1:8089/</a> 访问，默认密码：admin/123456<br><img src="/img/alibaba/canal/7.png" alt="image" title="我是图片描述"></p>
+</li>
+<li><p>关闭<br>sh bin/stop.sh</p>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="4-2-canal-server启动"><a href="#4-2-canal-server启动" class="headerlink" title="4.2 canal-server启动"></a>4.2 canal-server启动</h2><hr>
+<ul>
+<li><p>修改配置文件<br>vim conf/canal_local.properties</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># register ip</span><br><span class="line">canal.register.ip = 172.17.7.81 #canal服务所在服务器IP</span><br><span class="line"></span><br><span class="line"># canal admin config</span><br><span class="line">canal.admin.manager = 172.17.7.81:8089</span><br><span class="line">canal.admin.port = 11110</span><br><span class="line">canal.admin.user = admin</span><br><span class="line">canal.admin.passwd = 6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9</span><br><span class="line"># admin auto register</span><br><span class="line">canal.admin.register.auto = true</span><br><span class="line">canal.admin.register.cluster =</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置密码<br>上面配置的webUI的密码暗文需要到mysql的数据库查询的，我们配置的密码是123456，所以需要到数据库产生</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select password(123456);</span><br><span class="line">+-------------------------------------------+</span><br><span class="line">| password(123456)                          |</span><br><span class="line">+-------------------------------------------+</span><br><span class="line">| *6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9 |</span><br><span class="line">+-------------------------------------------+</span><br><span class="line">1 row in set, 1 warning (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<ul>
+<li>启动canal服务<br>要使用canal-admin，所以在启动方面也有一点不同，在bin目录下执行startup.sh 传入参数local<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 启动方法一：</span><br><span class="line">sh bin/startup.sh local</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 启动方法二：</span><br><span class="line"># ---将canal_local.properties配置文件的名字改成canal.properties(删除原有的)</span><br><span class="line">sh bin/startup.sh</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="4-3-webUI的使用"><a href="#4-3-webUI的使用" class="headerlink" title="4.3 webUI的使用"></a>4.3 webUI的使用</h2><hr>
+<ol>
+<li><p><a href="https://github.com/alibaba/canal/wiki/Canal-Admin-Guide" target="_blank" rel="noopener">官方介绍文档</a></p>
+</li>
+<li><p>Server管理截图</p>
+<ul>
+<li><p>新增<br><img src="/img/alibaba/canal/8.png" alt="image" title="我是图片描述"></p>
+</li>
+<li><p>配置Server 操作-&gt;配置</p>
+<ul>
+<li>载入模板，修改模板<br><img src="/img/alibaba/canal/9.png" alt="image" title="我是图片描述"><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"># tcp, kafka, RocketMQ</span><br><span class="line">canal.serverMode = kafka</span><br><span class="line">##################################################</span><br><span class="line">######### 		     MQ 		     #############</span><br><span class="line">##################################################</span><br><span class="line">canal.mq.servers = 127.0.0.1:9092</span><br><span class="line">canal.mq.retries = 0</span><br><span class="line">canal.mq.batchSize = 16384</span><br><span class="line">canal.mq.maxRequestSize = 1048576</span><br><span class="line">canal.mq.lingerMs = 100</span><br><span class="line">canal.mq.bufferMemory = 33554432</span><br><span class="line">canal.mq.canalBatchSize = 50</span><br><span class="line">canal.mq.canalGetTimeout = 100</span><br><span class="line">canal.mq.flatMessage = true</span><br><span class="line">canal.mq.compressionType = none</span><br><span class="line">canal.mq.acks = all</span><br><span class="line">#canal.mq.properties. =</span><br><span class="line">canal.mq.producerGroup = test</span><br><span class="line"># Set this value to &quot;cloud&quot;, if you want open message trace feature in aliyun.</span><br><span class="line">canal.mq.accessChannel = local</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>保存，并返回<br><img src="/img/alibaba/canal/10.png" alt="image" title="我是图片描述"></p>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<ol start="3">
+<li><p>Instance管理截图<br><img src="/img/alibaba/canal/12.png" alt="image" title="我是图片描述"></p>
+<ul>
+<li><p>新增、配置Instance<br><img src="/img/alibaba/canal/11.png" alt="image" title="我是图片描述"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># position info</span><br><span class="line">canal.instance.master.address=127.0.0.1:3306</span><br><span class="line"># username/password</span><br><span class="line">canal.instance.dbUsername=root</span><br><span class="line">canal.instance.dbPassword=12345678s</span><br><span class="line"># mq config</span><br><span class="line">canal.mq.topic=mytopic</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>保存并返回<br><img src="/img/alibaba/canal/13.png" alt="image" title="我是图片描述"></p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="4-4-测试"><a href="#4-4-测试" class="headerlink" title="4.4 测试"></a>4.4 测试</h2><p><img src="/img/alibaba/canal/14.png" alt="image" title="我是图片描述"></p>
+<hr>
+<h1 id="五、至此单节点canal秘籍已练成！开森"><a href="#五、至此单节点canal秘籍已练成！开森" class="headerlink" title="五、至此单节点canal秘籍已练成！开森"></a>五、至此单节点canal秘籍已练成！开森</h1><blockquote>
+<p>借鉴文章如下（侵删）：<br><a href="https://www.icode9.com/content-4-454188.html" target="_blank" rel="noopener">canal-admin的高可用使用，单机使用，HA使用，阿里的canal的UI界面，管理canal的实例</a><br><a href="https://blog.csdn.net/u013930425/article/details/80507201" target="_blank" rel="noopener">让canal成为SpringBoot组件</a></p>
+</blockquote>
+
+        <h2>相关文章</h2><ul><li><a href="/2019/03/25/java/SpringBoot连接MongoDB(单节点)/">SpringBoot连接MongoDB(单节点)</a></li><li><a href="/2019/08/22/java/SpringBoot整合Redis及工具类编写/">SpringBoot整合Redis及工具类编写</a></li><li><a href="/2019/08/09/java/Springboot-使用RestTemplate方式发HTTP请求及上传文件/">Springboot-使用RestTemplate方式发HTTP请求及上传文件</a></li><li><a href="/2019/04/24/java/UnitTest单元测试/">UnitTest单元测试</a></li><li><a href="/2019/03/25/java/thread/">springboot启动类（Application.java）中配置线程池大小</a></li></ul>
+    </div>
+    
+    <div class="post-footer">
+        <div class="col-sm-10">
+            <div>
+                <b>本文链接</b>：<a href="/2020/04/27/alibaba/canal安装及使用-JAVA/" target="_blank">Alibaba canal组件的安装及使用</a>
+            </div>
+            <div>
+                
+                    转载声明：本博客由叶壮创作，采用 <a href="https://creativecommons.org/licenses/by-nc-nd/3.0/" target="_blank"> CC BY 3.0 CN </a> 许可协议。可自由转载、引用，但需署名作者且注明文章出处。如转载至微信公众号，请在文末添加作者公众号二维码。
+                
+            </div>
+            <div>
+                
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <img src="/icons/wx.jpg" width=100%/>
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a target="_blank" href="/2020/08/07/docker/docker环境及docker-compose环境安装/" class="pre-post btn btn-default"
+           title='linux下docker环境及docker-compose环境安装'>
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">linux下docker环境及docker-compose环境安装</span>
+        </a>
+    
+    
+        <a target="_blank" href="/2020/04/15/python/Python爬虫技术/框架比对/" class="next-post btn btn-default"
+           title='Python爬虫技术/框架比对'>
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">Python爬虫技术/框架比对</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+   <p>评论系统未开启，无法评论！</p>
+
+    </div>
+
+
+
+
+
+
+                </main>
+                
+    <aside class="col-md-4 sidebar">
+        
+        
+    <div class="widget">
+        <h3 class="title">Categories</h3>
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Python/"><i class="fa" aria-hidden="true">Python</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品文档/"><i class="fa" aria-hidden="true">产品文档</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/"><i class="fa" aria-hidden="true">前端</i></a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/"><i class="fa" aria-hidden="true">运维</i></a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/运维/SkyWalking/"><i class="fa" aria-hidden="true">SkyWalking</i></a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/docker/"><i class="fa" aria-hidden="true">docker</i></a><span class="category-list-count">1</span></li></ul></li></ul>
+    </div>
+
+
+        
+        
+  <div class="widget">
+    <h3 class="title">Tag Cloud</h3>
+    <div class="content tag-cloud">
+        
+            <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/SkyWalking/" style="font-size: 13.33px;">SkyWalking</a> <a href="/tags/SpringBoot/" style="font-size: 10px;">SpringBoot</a> <a href="/tags/alibaba/" style="font-size: 10px;">alibaba</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/elk/" style="font-size: 16.67px;">elk</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/html/" style="font-size: 13.33px;">html</a> <a href="/tags/idea/" style="font-size: 10px;">idea</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/sqoop/" style="font-size: 10px;">sqoop</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a>
+        
+    </div>
+  </div>
+
+
+        
+        
+
+        
+    </aside>
+
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+        Total:
+        <strong id="busuanzi_value_site_pv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; | &nbsp;
+        Visitors:
+        <strong id="busuanzi_value_site_uv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; <strong>Since 2018-12-26</strong>
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/itmuch/hexo-theme-itmuch.git" class="copyright-links" target="_blank" rel="nofollow">ITMuch</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/bootstrap-hover-dropdown.min.js"></script>
+
+	<script src="/js/search.js?rev=@@hash"></script>
+
+
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,426 @@
+<!DOCTYPE HTML>
+<html lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="程序员Yz">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://zhuangyea.github.io">
+    <!--SEO-->
+
+    <meta name="keywords" content="java">
+
+
+    <meta name="description" content="pom.xml（SpringBoot版本1.5.9）
+12345&lt;!-- 集成mongodb --&gt;&lt;dependency&gt;    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;    &lt;artifa...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+
+<title>SpringBoot连接MongoDB(单节点) | 程序员Yz</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="程序员Yz" type="application/atom+xml">
+
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?13766878cde148282622871dd245a973";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <nav class="navbar navbar-default" style="background-color:#fff;border:0;margin-bottom:0"
+                     role="navigation">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target="#navbar-collapse-1">
+                            <span class="sr-only">切</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="logo" href="/">
+                            <img src="/favicon.jpg"/>叶壮的博客
+                        </a>
+                    </div>
+
+                    <div class="collapse navbar-collapse" style="border:0;" id="navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            
+                                
+                                    <li>
+                                        <a href="/about" target="_blank">
+                                            <i class="fa fa-user"></i>
+                                            关于我
+                                        </a>
+                                    </li>
+                                
+                            
+                                
+                                    <li>
+                                        <a href="/archives" target="_blank">
+                                            <i class="fa fa-archive"></i>
+                                            归档
+                                        </a>
+                                    </li>
+                                
+                            
+                        </ul>
+                        
+                            <form id="search-form" class="navbar-form navbar-right">
+                                <div class="form-group input-group">
+                                    <input type="text" id="local-search-input" class="form-control"
+                                           placeholder="Search What？"/>
+                                    <span class="input-group-btn">
+                                        <a class="btn btn-default">
+                                            <i class="fa fa-search"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                                <div id="local-search-result" class="local-search-result-cls"></div>
+                            </form>
+                        
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    
+
+<p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="SpringBoot连接MongoDB(单节点)">
+            
+                SpringBoot连接MongoDB(单节点)
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/java/">java</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2019/03/25</span>
+        </span>
+        
+            <span class="fa-wrap">
+                <i class="fa fa-eye"></i>
+                <span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    
+</div>
+        
+        
+    </div>
+    
+    <div class="post-body post-content">
+        
+
+        <p>pom.xml（SpringBoot版本1.5.9）</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 集成mongodb --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-mongodb<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>配置文件</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#mongodb配置</span><br><span class="line">spring:</span><br><span class="line">  data:</span><br><span class="line">    mongodb:</span><br><span class="line">      host: ip</span><br><span class="line">      port: port</span><br><span class="line">      database: ismart</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>实体类参考</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.colin.fdfs.model;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.data.annotation.Id;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.mongodb.core.mapping.Document;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.text.SimpleDateFormat;</span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by colin on 2018/7/4.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Document</span>(collection = <span class="string">"ismartFastdfs"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Fastdfs</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String COLLECTION_KEY = <span class="string">"ismartFastdfs"</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String CREATE_TIME = <span class="string">"createTime"</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String SYSTEM_ID = <span class="string">"systemId"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="keyword">private</span> String id;</span><br><span class="line">    <span class="keyword">private</span> String fileName;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> fileSize;</span><br><span class="line">    <span class="keyword">private</span> Date createTime;</span><br><span class="line">    <span class="keyword">private</span> String ipHost;</span><br><span class="line">    <span class="keyword">private</span> String filePath;</span><br><span class="line">    <span class="keyword">private</span> String uploadType;</span><br><span class="line">    <span class="keyword">private</span> String systemId;</span><br><span class="line">    <span class="keyword">private</span> String httpUrl;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String createTimeStr;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String stime;</span><br><span class="line">    <span class="keyword">private</span> String etime;</span><br><span class="line">    <span class="comment">// TODO 此处省略get/set方法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>分页查询</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> MongoTemplate mongoTemplate;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">demo01</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Criteria c = <span class="keyword">new</span> Criteria();</span><br><span class="line">    <span class="keyword">if</span> (params != <span class="keyword">null</span> &amp;&amp; params.size() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (Map.Entry&lt;String, Object&gt; entry : params.entrySet()) &#123;</span><br><span class="line">            c.and(entry.getKey()).is(entry.getValue());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * (num-1) * pageSize</span></span><br><span class="line"><span class="comment">     * 1 10 0 10</span></span><br><span class="line"><span class="comment">     * 2 10 10 10</span></span><br><span class="line"><span class="comment">     * 3 10 20 10</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">if</span> (pageNum == <span class="keyword">null</span>) &#123;</span><br><span class="line">        pageNum = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (pageSize == <span class="keyword">null</span>) &#123;</span><br><span class="line">        pageSize = <span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    List&lt;ReadingHistory&gt; data = mongoTemplate.find(Query.query(c)</span><br><span class="line">                    .with(<span class="keyword">new</span> Sort(Sort.Direction.DESC, <span class="string">"mdbCreatedAt"</span>)) <span class="comment">// 排序</span></span><br><span class="line">                    .skip((pageNum - <span class="number">1</span>) * pageSize) <span class="comment">//当前页</span></span><br><span class="line">                    .limit(pageSize), <span class="comment">// 每页条数</span></span><br><span class="line">            ReadingHistory.class, <span class="string">"collectionHistory"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>聚合查询-根据时间分组、排序</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;数据结构如下图</p>
+<p><img src="/img/source/java/mongoDB01.png" alt="image.png" title="我是图片描述"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">count</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 根据部门和时间统计上传图片数量，时间倒序</span></span><br><span class="line">        Aggregation agg = Aggregation.newAggregation(</span><br><span class="line"><span class="comment">//                Aggregation.match(Criteria.where("moduleId").is("ismart")),</span></span><br><span class="line">                Aggregation.project(<span class="string">"moduleId"</span>)</span><br><span class="line">                        .and(DateOperators.DateToString.dateOf(<span class="string">"createTime"</span>)</span><br><span class="line">                                .toString(<span class="string">"%Y-%m-%d"</span>)).as(<span class="string">"date"</span>),</span><br><span class="line">                Aggregation.group(<span class="string">"date"</span>,<span class="string">"moduleId"</span>).count().as(<span class="string">"total"</span>),</span><br><span class="line">                Aggregation.sort(Sort.Direction.DESC, <span class="string">"date"</span>,<span class="string">"moduleId"</span>)</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 输出数据</span></span><br><span class="line">        AggregationResults&lt;JSONObject&gt; a = mongoTemplate.aggregate(agg, <span class="string">"fastdfs"</span>, JSONObject.class);</span><br><span class="line">        System.out.println(a);</span><br><span class="line">        List&lt;JSONObject&gt; list = a.getMappedResults();</span><br><span class="line">        <span class="keyword">for</span> (JSONObject count : list) &#123;</span><br><span class="line">            System.out.println(count.toString());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">      输出结果如下：</span><br><span class="line">      &#123;<span class="string">"date"</span>:<span class="string">"2019-04-11"</span>,<span class="string">"total"</span>:<span class="number">2</span>,<span class="string">"moduleId"</span>:<span class="string">"ismart"</span>&#125;</span><br><span class="line">      &#123;<span class="string">"date"</span>:<span class="string">"2019-04-11"</span>,<span class="string">"total"</span>:<span class="number">750</span>,<span class="string">"moduleId"</span>:<span class="string">"industrial"</span>&#125;</span><br><span class="line">      &#123;<span class="string">"date"</span>:<span class="string">"2019-04-10"</span>,<span class="string">"total"</span>:<span class="number">1239</span>,<span class="string">"moduleId"</span>:<span class="string">"ismart"</span>&#125;</span><br><span class="line">      &#123;<span class="string">"date"</span>:<span class="string">"2019-04-10"</span>,<span class="string">"total"</span>:<span class="number">973</span>,<span class="string">"moduleId"</span>:<span class="string">"industrial"</span>&#125;</span><br><span class="line">      &#123;<span class="string">"date"</span>:<span class="string">"2019-04-08"</span>,<span class="string">"total"</span>:<span class="number">1367</span>,<span class="string">"moduleId"</span>:<span class="string">"ismart"</span>&#125;</span><br><span class="line">      &#123;<span class="string">"date"</span>:<span class="string">"2019-04-08"</span>,<span class="string">"total"</span>:<span class="number">2080</span>,<span class="string">"moduleId"</span>:<span class="string">"industrial"</span>&#125;</span><br><span class="line">      ...</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/source/java/mongoDB02.png" alt="image.png"></p>
+<ul>
+<li>需注意SpringBoot版本问题。使用1.5.9.RELEASE版本聚合查询一直报错（如上图），解决方案：升级SpringBoot版本至<strong><em>1.5.10.RELEASE</em></strong>。</li>
+</ul>
+<p>聚合语法参考：</p>
+<table>
+<thead>
+<tr>
+<th align="right">SQL 操作/函数</th>
+<th align="right">mongodb聚合操作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="right">where</td>
+<td align="right">$match</td>
+</tr>
+<tr>
+<td align="right">group by</td>
+<td align="right">$group</td>
+</tr>
+<tr>
+<td align="right">having</td>
+<td align="right">$match</td>
+</tr>
+<tr>
+<td align="right">select</td>
+<td align="right">$project</td>
+</tr>
+<tr>
+<td align="right">order by</td>
+<td align="right">$sort</td>
+</tr>
+<tr>
+<td align="right">limit</td>
+<td align="right">$limit</td>
+</tr>
+<tr>
+<td align="right">sum()</td>
+<td align="right">$sum</td>
+</tr>
+<tr>
+<td align="right">count()</td>
+<td align="right">$sum</td>
+</tr>
+<tr>
+<td align="right">join</td>
+<td align="right">$lookup（v3.2 新增）</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>借鉴文章如下:<br><a href="https://www.cnblogs.com/zhoujie/p/mongo1.html" target="_blank" rel="noopener">mongodb高级聚合查询</a></p>
+</blockquote>
+
+        <h2>相关文章</h2><ul><li><a href="/2020/04/27/alibaba/canal安装及使用-JAVA/">Alibaba canal组件的安装及使用</a></li><li><a href="/2019/08/22/java/SpringBoot整合Redis及工具类编写/">SpringBoot整合Redis及工具类编写</a></li><li><a href="/2019/08/09/java/Springboot-使用RestTemplate方式发HTTP请求及上传文件/">Springboot-使用RestTemplate方式发HTTP请求及上传文件</a></li><li><a href="/2019/04/24/java/UnitTest单元测试/">UnitTest单元测试</a></li><li><a href="/2019/03/25/java/thread/">springboot启动类（Application.java）中配置线程池大小</a></li></ul>
+    </div>
+    
+    <div class="post-footer">
+        <div class="col-sm-10">
+            <div>
+                <b>本文链接</b>：<a href="/2019/03/25/java/SpringBoot连接MongoDB(单节点)/" target="_blank">SpringBoot连接MongoDB(单节点)</a>
+            </div>
+            <div>
+                
+                    转载声明：本博客由叶壮创作，采用 <a href="https://creativecommons.org/licenses/by-nc-nd/3.0/" target="_blank"> CC BY 3.0 CN </a> 许可协议。可自由转载、引用，但需署名作者且注明文章出处。如转载至微信公众号，请在文末添加作者公众号二维码。
+                
+            </div>
+            <div>
+                
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <img src="/icons/wx.jpg" width=100%/>
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a target="_blank" href="/2019/03/25/elk/ElasticSearch插件SearchGuard及IK安装/" class="pre-post btn btn-default"
+           title='ElasticSearch插件SearchGuard/IK安装'>
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">ElasticSearch插件SearchGuard/IK安装</span>
+        </a>
+    
+    
+        <a target="_blank" href="/2019/03/25/java/thread/" class="next-post btn btn-default"
+           title='springboot启动类（Application.java）中配置线程池大小'>
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">springboot启动类（Application.java）中配置线程池大小</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+   <p>评论系统未开启，无法评论！</p>
+
+    </div>
+
+
+
+
+
+
+                </main>
+                
+    <aside class="col-md-4 sidebar">
+        
+        
+    <div class="widget">
+        <h3 class="title">Categories</h3>
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Python/"><i class="fa" aria-hidden="true">Python</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品文档/"><i class="fa" aria-hidden="true">产品文档</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/"><i class="fa" aria-hidden="true">前端</i></a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/"><i class="fa" aria-hidden="true">运维</i></a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/运维/SkyWalking/"><i class="fa" aria-hidden="true">SkyWalking</i></a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/docker/"><i class="fa" aria-hidden="true">docker</i></a><span class="category-list-count">1</span></li></ul></li></ul>
+    </div>
+
+
+        
+        
+  <div class="widget">
+    <h3 class="title">Tag Cloud</h3>
+    <div class="content tag-cloud">
+        
+            <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/SkyWalking/" style="font-size: 13.33px;">SkyWalking</a> <a href="/tags/SpringBoot/" style="font-size: 10px;">SpringBoot</a> <a href="/tags/alibaba/" style="font-size: 10px;">alibaba</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/elk/" style="font-size: 16.67px;">elk</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/html/" style="font-size: 13.33px;">html</a> <a href="/tags/idea/" style="font-size: 10px;">idea</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/sqoop/" style="font-size: 10px;">sqoop</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a>
+        
+    </div>
+  </div>
+
+
+        
+        
+
+        
+    </aside>
+
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+        Total:
+        <strong id="busuanzi_value_site_pv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; | &nbsp;
+        Visitors:
+        <strong id="busuanzi_value_site_uv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; <strong>Since 2018-12-26</strong>
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/itmuch/hexo-theme-itmuch.git" class="copyright-links" target="_blank" rel="nofollow">ITMuch</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/bootstrap-hover-dropdown.min.js"></script>
+
+	<script src="/js/search.js?rev=@@hash"></script>
+
+
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+
+
+</body>
+</html>

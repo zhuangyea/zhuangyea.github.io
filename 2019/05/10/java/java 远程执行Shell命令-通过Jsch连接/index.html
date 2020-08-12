@@ -1,0 +1,380 @@
+<!DOCTYPE HTML>
+<html lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="程序员Yz">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://zhuangyea.github.io">
+    <!--SEO-->
+
+    <meta name="keywords" content="java">
+
+
+    <meta name="description" content="JSch是Java Secure Channel的缩写。JSch是一个SSH2的纯Java实现。它允许你连接到一个SSH服务器，并且可以使用端口转发，X11转发，文件传输等，当然你也可以集成它的功能到你自己的应用程序。
+本文只介绍如何使用JSch实现的SFTP功能。
+SFTP是Secure F...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+
+<title>java 远程执行Shell命令-通过Jsch连接 | 程序员Yz</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="程序员Yz" type="application/atom+xml">
+
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?13766878cde148282622871dd245a973";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <nav class="navbar navbar-default" style="background-color:#fff;border:0;margin-bottom:0"
+                     role="navigation">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target="#navbar-collapse-1">
+                            <span class="sr-only">切</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="logo" href="/">
+                            <img src="/favicon.jpg"/>叶壮的博客
+                        </a>
+                    </div>
+
+                    <div class="collapse navbar-collapse" style="border:0;" id="navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            
+                                
+                                    <li>
+                                        <a href="/about" target="_blank">
+                                            <i class="fa fa-user"></i>
+                                            关于我
+                                        </a>
+                                    </li>
+                                
+                            
+                                
+                                    <li>
+                                        <a href="/archives" target="_blank">
+                                            <i class="fa fa-archive"></i>
+                                            归档
+                                        </a>
+                                    </li>
+                                
+                            
+                        </ul>
+                        
+                            <form id="search-form" class="navbar-form navbar-right">
+                                <div class="form-group input-group">
+                                    <input type="text" id="local-search-input" class="form-control"
+                                           placeholder="Search What？"/>
+                                    <span class="input-group-btn">
+                                        <a class="btn btn-default">
+                                            <i class="fa fa-search"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                                <div id="local-search-result" class="local-search-result-cls"></div>
+                            </form>
+                        
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    
+
+<p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="java 远程执行Shell命令-通过Jsch连接">
+            
+                java 远程执行Shell命令-通过Jsch连接
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/java/">java</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2019/05/10</span>
+        </span>
+        
+            <span class="fa-wrap">
+                <i class="fa fa-eye"></i>
+                <span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    
+</div>
+        
+        
+    </div>
+    
+    <div class="post-body post-content">
+        
+
+        <p>JSch是Java Secure Channel的缩写。JSch是一个SSH2的纯Java实现。它允许你连接到一个SSH服务器，并且可以使用端口转发，X11转发，文件传输等，当然你也可以集成它的功能到你自己的应用程序。</p>
+<p>本文只介绍如何使用JSch实现的SFTP功能。</p>
+<p>SFTP是Secure File Transfer Protocol的缩写，安全文件传送协议。可以为传输文件提供一种安全的加密方法。SFTP 为 SSH的一部份，是一种传输文件到服务器的安全方式。SFTP是使用加密传输认证信息和传输的数据，所以，使用SFTP是非常安全的。但是，由于这种传输方式使用了加密/解密技术，所以传输效率比普通的FTP要低得多，如果您对网络安全性要求更高时，可以使用SFTP代替FTP。（来自百度的解释）</p>
+<p>要使用JSch，需要下载它的jar包，请从官网下载它：<a href="http://www.jcraft.com/jsch/" target="_blank" rel="noopener">http://www.jcraft.com/jsch/</a></p>
+<p>ChannelSftp类是JSch实现SFTP核心类，它包含了所有SFTP的方法，如：<br>put()：      文件上传<br>get()：      文件下载<br>cd()：       进入指定目录<br>ls()：       得到指定目录下的文件列表<br>rename()：   重命名指定文件或目录<br>rm()：       删除指定文件<br>mkdir()：    创建目录<br>rmdir()：    删除目录</p>
+<p>等等（这里省略了方法的参数，put和get都有多个重载方法，具体请看源代码，这里不一一列出。）<br>JSch支持三种文件传输模式：</p>
+<table><tr><th>传输模式名</th><th>描述</th></tr><tr><td>OVERWRITE</td><td>完全覆盖模式，这是JSch的默认文件传输模式，即如果目标文件已经存在，传输的文件将完全覆盖目标文件，产生新的文件。</td></tr><tr><td>RESUME</td><td>恢复模式，如果文件已经传输一部分，这时由于网络或其他任何原因导致文件传输中断，如果下一次传输相同的文件，则会从上一次中断的地方续传。</td></tr><tr><td>APPEND</td><td>追加模式，如果目标文件已存在，传输的文件将在目标文件后追加。</td></tr></table>
+
+<p>1.引入jar包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.jcraft&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;jsch&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;0.1.54&lt;/version&gt; </span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p>2.实际例子</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.bluemoon.executor.core.executor;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.bluemoon.executor.core.log.XxlJobLogger;</span><br><span class="line"><span class="keyword">import</span> com.jcraft.jsch.*;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.Logger;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.LoggerFactory;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="keyword">import</span> java.nio.charset.Charset;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JSchExecutor</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Logger log = LoggerFactory.getLogger(JSchExecutor.class);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String charset = <span class="string">"UTF-8"</span>; <span class="comment">// 设置编码格式</span></span><br><span class="line">    <span class="keyword">private</span> String user; <span class="comment">// 用户名</span></span><br><span class="line">    <span class="keyword">private</span> String passwd; <span class="comment">// 登录密码</span></span><br><span class="line">    <span class="keyword">private</span> String host; <span class="comment">// 主机IP</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> port = <span class="number">22</span>; <span class="comment">//默认端口</span></span><br><span class="line">    <span class="keyword">private</span> JSch jsch;</span><br><span class="line">    <span class="keyword">private</span> Session session;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> ChannelSftp sftp;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> user 用户名</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> passwd 密码</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> host 主机IP</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">JSchExecutor</span><span class="params">(String user, String passwd, String host )</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.user = user;</span><br><span class="line">        <span class="keyword">this</span>.passwd = passwd;</span><br><span class="line">        <span class="keyword">this</span>.host = host;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> user 用户名</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> passwd 密码</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> host 主机IP</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">JSchExecutor</span><span class="params">(String user, String passwd, String host , <span class="keyword">int</span> port )</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.user = user;</span><br><span class="line">        <span class="keyword">this</span>.passwd = passwd;</span><br><span class="line">        <span class="keyword">this</span>.host = host;</span><br><span class="line">        <span class="keyword">this</span>.port = port;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 连接到指定的IP</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> JSchException</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">connect</span><span class="params">()</span> <span class="keyword">throws</span> JSchException </span>&#123;</span><br><span class="line">        jsch = <span class="keyword">new</span> JSch();</span><br><span class="line">        session = jsch.getSession(user, host, port);</span><br><span class="line">        session.setPassword(passwd);</span><br><span class="line">        java.util.Properties config = <span class="keyword">new</span> java.util.Properties();</span><br><span class="line">        config.put(<span class="string">"StrictHostKeyChecking"</span>, <span class="string">"no"</span>);</span><br><span class="line">        session.setConfig(config);</span><br><span class="line">        session.connect();</span><br><span class="line">        Channel channel = session.openChannel(<span class="string">"sftp"</span>);</span><br><span class="line">        channel.connect();</span><br><span class="line">        sftp = (ChannelSftp) channel;</span><br><span class="line">        log.info(<span class="string">"连接到SFTP成功。host: "</span> + host);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 关闭连接</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">disconnect</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (sftp != <span class="keyword">null</span> &amp;&amp; sftp.isConnected()) &#123;</span><br><span class="line">            sftp.disconnect();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(session != <span class="keyword">null</span> &amp;&amp; session.isConnected())&#123;</span><br><span class="line">            session.disconnect();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 执行一条命令</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">execCmd</span><span class="params">(String command)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        XxlJobLogger.log( <span class="string">"开始执行命令:"</span> + command);</span><br><span class="line">        <span class="keyword">int</span> returnCode  = -<span class="number">1</span>;</span><br><span class="line">        BufferedReader reader = <span class="keyword">null</span>;</span><br><span class="line">        Channel channel = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        channel = session.openChannel(<span class="string">"exec"</span>);</span><br><span class="line">        ((ChannelExec) channel).setCommand(command);</span><br><span class="line">        channel.setInputStream(<span class="keyword">null</span>);</span><br><span class="line">        ((ChannelExec) channel).setErrStream(System.err);</span><br><span class="line">        InputStream in = channel.getInputStream();</span><br><span class="line">        reader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(in));<span class="comment">//中文乱码貌似这里不能控制，看连接的服务器的</span></span><br><span class="line"></span><br><span class="line">        channel.connect();</span><br><span class="line">        System.out.println(<span class="string">"The remote command is: "</span> + command);</span><br><span class="line">        String buf ;</span><br><span class="line">        <span class="keyword">while</span> ((buf = reader.readLine()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">            XxlJobLogger.log(buf);</span><br><span class="line">        &#125;</span><br><span class="line">        reader.close();</span><br><span class="line">        <span class="comment">// Get the return code only after the channel is closed.</span></span><br><span class="line">        <span class="keyword">if</span> (channel.isClosed()) &#123;</span><br><span class="line">            returnCode = channel.getExitStatus();</span><br><span class="line">        &#125;</span><br><span class="line">        XxlJobLogger.log( <span class="string">"Exit-status:"</span> + returnCode );</span><br><span class="line"></span><br><span class="line">       <span class="comment">/* StringBuffer buf = new StringBuffer( 1024 );</span></span><br><span class="line"><span class="comment">        byte[] tmp = new byte[ 1024 ];</span></span><br><span class="line"><span class="comment">        while ( true ) &#123;</span></span><br><span class="line"><span class="comment">            while ( in.available() &gt; 0 ) &#123;</span></span><br><span class="line"><span class="comment">                int i = in.read( tmp, 0, 1024 );</span></span><br><span class="line"><span class="comment">                if ( i &lt; 0 ) break;</span></span><br><span class="line"><span class="comment">                buf.append( new String( tmp, 0, i ) );</span></span><br><span class="line"><span class="comment">            &#125;</span></span><br><span class="line"><span class="comment">            if (  channel.isClosed() ) &#123;</span></span><br><span class="line"><span class="comment">                res = channel.getExitStatus();</span></span><br><span class="line"><span class="comment">                XxlJobLogger.log( "Exit-status:" + res );</span></span><br><span class="line"><span class="comment">                System.out.println( "Exit-status:" + res );</span></span><br><span class="line"><span class="comment">                break;</span></span><br><span class="line"><span class="comment">            &#125;</span></span><br><span class="line"><span class="comment">            TimeUnit.MILLISECONDS.sleep(100);</span></span><br><span class="line"><span class="comment">        &#125;</span></span><br><span class="line"><span class="comment">        XxlJobLogger.log( buf.toString() );*/</span></span><br><span class="line"></span><br><span class="line">        channel.disconnect();</span><br><span class="line">        <span class="keyword">return</span> returnCode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 执行相关的命令</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execCmd</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        BufferedReader br = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(System.in));</span><br><span class="line"></span><br><span class="line">        String command = <span class="string">""</span>;</span><br><span class="line">        BufferedReader reader = <span class="keyword">null</span>;</span><br><span class="line">        Channel channel = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">while</span> ((command = br.readLine()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">                channel = session.openChannel(<span class="string">"exec"</span>);</span><br><span class="line">                ((ChannelExec) channel).setCommand(command);</span><br><span class="line">                channel.setInputStream(<span class="keyword">null</span>);</span><br><span class="line">                ((ChannelExec) channel).setErrStream(System.err);</span><br><span class="line"></span><br><span class="line">                channel.connect();</span><br><span class="line">                InputStream in = channel.getInputStream();</span><br><span class="line">                reader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(in,</span><br><span class="line">                        Charset.forName(charset)));</span><br><span class="line">                String buf = <span class="keyword">null</span>;</span><br><span class="line">                <span class="keyword">while</span> ((buf = reader.readLine()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    System.out.println(buf);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (JSchException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                reader.close();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            channel.disconnect();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 上传文件</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">uploadFile</span><span class="params">(String local,String remote)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        File file = <span class="keyword">new</span> File(local);</span><br><span class="line">        <span class="keyword">if</span> (file.isDirectory()) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(local + <span class="string">"  is not a file"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        InputStream inputStream = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            String rpath = remote.substring(<span class="number">0</span>,remote.lastIndexOf(<span class="string">"/"</span>)+<span class="number">1</span>);</span><br><span class="line">            <span class="keyword">if</span> (!isDirExist(rpath))&#123;</span><br><span class="line">                createDir(rpath);</span><br><span class="line">            &#125;</span><br><span class="line">            inputStream = <span class="keyword">new</span> FileInputStream(file);</span><br><span class="line">            sftp.setInputStream(inputStream);</span><br><span class="line">            sftp.put(inputStream, remote);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> e;</span><br><span class="line">        &#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(inputStream != <span class="keyword">null</span>)&#123;</span><br><span class="line">                inputStream.close();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 下载文件</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">downloadFile</span><span class="params">(String remote,String local)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        OutputStream outputStream = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            sftp.connect(<span class="number">5000</span>);</span><br><span class="line">            outputStream = <span class="keyword">new</span> FileOutputStream(<span class="keyword">new</span> File(local));</span><br><span class="line">            sftp.get(remote, outputStream);</span><br><span class="line">            outputStream.flush();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> e;</span><br><span class="line">        &#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(outputStream != <span class="keyword">null</span>)&#123;</span><br><span class="line">                outputStream.close();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 移动到相应的目录下</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> pathName 要移动的目录</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">changeDir</span><span class="params">(String pathName)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(pathName == <span class="keyword">null</span> || pathName.trim().equals(<span class="string">""</span>))&#123;</span><br><span class="line">            log.debug(<span class="string">"invalid pathName"</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            sftp.cd(pathName.replaceAll(<span class="string">"\\\\"</span>, <span class="string">"/"</span>));</span><br><span class="line">            log.debug(<span class="string">"directory successfully changed,current dir="</span> + sftp.pwd());</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (SftpException e) &#123;</span><br><span class="line">            log.error(<span class="string">"failed to change directory"</span>,e);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 创建一个文件目录，mkdir每次只能创建一个文件目录</span></span><br><span class="line"><span class="comment">     * 或者可以使用命令mkdir -p 来创建多个文件目录</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">createDir</span><span class="params">(String createpath)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (isDirExist(createpath)) &#123;</span><br><span class="line">                sftp.cd(createpath);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            String pathArry[] = createpath.split(<span class="string">"/"</span>);</span><br><span class="line">            StringBuffer filePath = <span class="keyword">new</span> StringBuffer(<span class="string">"/"</span>);</span><br><span class="line">            <span class="keyword">for</span> (String path : pathArry) &#123;</span><br><span class="line">                <span class="keyword">if</span> (path.equals(<span class="string">""</span>)) &#123;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                filePath.append(path + <span class="string">"/"</span>);</span><br><span class="line">                <span class="keyword">if</span> (isDirExist(filePath.toString())) &#123;</span><br><span class="line">                    sftp.cd(filePath.toString());</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="comment">// 建立目录</span></span><br><span class="line">                    sftp.mkdir(filePath.toString());</span><br><span class="line">                    <span class="comment">// 进入并设置为当前目录</span></span><br><span class="line">                    sftp.cd(filePath.toString());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            sftp.cd(createpath);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (SftpException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"创建路径错误："</span> + createpath);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 判断目录是否存在</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> directory</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isDirExist</span><span class="params">(String directory)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">boolean</span> isDirExistFlag = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">try</span></span><br><span class="line">        &#123;</span><br><span class="line">            SftpATTRS sftpATTRS = sftp.lstat(directory);</span><br><span class="line">            isDirExistFlag = <span class="keyword">true</span>;</span><br><span class="line">            <span class="keyword">return</span> sftpATTRS.isDir();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Exception e)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (e.getMessage().toLowerCase().equals(<span class="string">"no such file"</span>))</span><br><span class="line">            &#123;</span><br><span class="line">                isDirExistFlag = <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> isDirExistFlag;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3.用法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    JSchExecutor jSchUtil = <span class="keyword">new</span> JSchExecutor( <span class="string">"user"</span>, <span class="string">"password#"</span>,<span class="string">"192.168.243.21"</span>);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        jSchUtil.connect();</span><br><span class="line">        jSchUtil.uploadFile(<span class="string">"C:\\data\\applogs\\bd-job\\jobhandler\\2020-03-07\\employee.py"</span>,<span class="string">"/data/applogs/bd-job-777/jobhandler/2018-09-15/employee.py"</span>);</span><br><span class="line">        <span class="comment">//jSchUtil.execCmd("python /data/bluemoon/kettle/runScript/ods/fact_org_employee.py 'so you is wahek 哈哈哈快递放假塑料袋放进了'");</span></span><br><span class="line">        jSchUtil.execCmd(<span class="string">"python /data/applogs/bd-job/jobhandler/gluesource/employee.py 中文名称"</span>);</span><br><span class="line">        <span class="comment">//jSchUtil.execCmd("cat /data/applogs/bd-job/jobhandler/test");</span></span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">        jSchUtil.disconnect();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>4.实时返回打印的日志<br>在实际开发中，需要执行一个python文档，里面含有多条的python语句，可能耗时1个小时才能执行完，这种情况需要能够实时的返回日志信息，看看python到底执行到哪一步。</p>
+<p>使用ChannelShell可与服务器保持连接状态，可交互信息</p>
+<p>用法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 实时打印日志信息</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">shellCmd</span><span class="params">(String command)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">    XxlJobLogger.log( <span class="string">"开始执行命令:"</span> + command);</span><br><span class="line">    <span class="keyword">int</span> returnCode  = -<span class="number">1</span>;</span><br><span class="line">    ChannelShell channel=(ChannelShell) session.openChannel(<span class="string">"shell"</span>);</span><br><span class="line">    InputStream in = channel.getInputStream();</span><br><span class="line">    channel.setPty(<span class="keyword">true</span>);</span><br><span class="line">    channel.connect();</span><br><span class="line">    OutputStream os = channel.getOutputStream();</span><br><span class="line">    os.write((command + <span class="string">"\r\n"</span>).getBytes());</span><br><span class="line">    os.write(<span class="string">"exit\r\n"</span>.getBytes());</span><br><span class="line">    os.flush();</span><br><span class="line">    XxlJobLogger.log(<span class="string">"The remote command is:&#123;&#125;"</span> ,command);</span><br><span class="line">    <span class="keyword">byte</span>[] tmp=<span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">    <span class="keyword">while</span>(<span class="keyword">true</span>) &#123;</span><br><span class="line">        <span class="keyword">while</span> (in.available() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">int</span> i = in.read(tmp, <span class="number">0</span>, <span class="number">1024</span>);</span><br><span class="line">            <span class="keyword">if</span> (i &lt; <span class="number">0</span>) <span class="keyword">break</span>;</span><br><span class="line">            XxlJobLogger.log(<span class="keyword">new</span> String(tmp, <span class="number">0</span>, i));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (channel.isClosed()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (in.available() &gt; <span class="number">0</span>) <span class="keyword">continue</span>;</span><br><span class="line">            returnCode = channel.getExitStatus();</span><br><span class="line">            XxlJobLogger.log(<span class="string">"exit-status: "</span> + channel.getExitStatus());</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span>&#123;Thread.sleep(<span class="number">1000</span>);&#125;<span class="keyword">catch</span>(Exception ee)&#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    os.close();</span><br><span class="line">    in.close();</span><br><span class="line">    channel.disconnect();</span><br><span class="line">    session.disconnect();</span><br><span class="line">    <span class="keyword">return</span> returnCode;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p>复制原文章（防止原文丢失）(如果涉及侵权，请联系作者进行删除、修改):<br><a href="https://www.jianshu.com/p/ede91b0b8495" target="_blank" rel="noopener">java 远程执行Shell命令-通过Jsch连接</a>;</p>
+</blockquote>
+
+        <h2>相关文章</h2><ul><li><a href="/2020/04/27/alibaba/canal安装及使用-JAVA/">Alibaba canal组件的安装及使用</a></li><li><a href="/2019/03/25/java/SpringBoot连接MongoDB(单节点)/">SpringBoot连接MongoDB(单节点)</a></li><li><a href="/2019/08/22/java/SpringBoot整合Redis及工具类编写/">SpringBoot整合Redis及工具类编写</a></li><li><a href="/2019/08/09/java/Springboot-使用RestTemplate方式发HTTP请求及上传文件/">Springboot-使用RestTemplate方式发HTTP请求及上传文件</a></li><li><a href="/2019/04/24/java/UnitTest单元测试/">UnitTest单元测试</a></li></ul>
+    </div>
+    
+    <div class="post-footer">
+        <div class="col-sm-10">
+            <div>
+                <b>本文链接</b>：<a href="/2019/05/10/java/java 远程执行Shell命令-通过Jsch连接/" target="_blank">java 远程执行Shell命令-通过Jsch连接</a>
+            </div>
+            <div>
+                
+                    转载声明：本博客由叶壮创作，采用 <a href="https://creativecommons.org/licenses/by-nc-nd/3.0/" target="_blank"> CC BY 3.0 CN </a> 许可协议。可自由转载、引用，但需署名作者且注明文章出处。如转载至微信公众号，请在文末添加作者公众号二维码。
+                
+            </div>
+            <div>
+                
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <img src="/icons/wx.jpg" width=100%/>
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a target="_blank" href="/2019/08/09/java/Springboot-使用RestTemplate方式发HTTP请求及上传文件/" class="pre-post btn btn-default"
+           title='Springboot-使用RestTemplate方式发HTTP请求及上传文件'>
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">Springboot-使用RestTemplate方式发HTTP请求及上传文件</span>
+        </a>
+    
+    
+        <a target="_blank" href="/2019/05/06/hadoop/sqoop导入导出Mysql/" class="next-post btn btn-default"
+           title='sqoop导入导出Mysql'>
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">sqoop导入导出Mysql</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+   <p>评论系统未开启，无法评论！</p>
+
+    </div>
+
+
+
+
+
+
+                </main>
+                
+    <aside class="col-md-4 sidebar">
+        
+        
+    <div class="widget">
+        <h3 class="title">Categories</h3>
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Python/"><i class="fa" aria-hidden="true">Python</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品文档/"><i class="fa" aria-hidden="true">产品文档</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/"><i class="fa" aria-hidden="true">前端</i></a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/"><i class="fa" aria-hidden="true">运维</i></a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/运维/SkyWalking/"><i class="fa" aria-hidden="true">SkyWalking</i></a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/docker/"><i class="fa" aria-hidden="true">docker</i></a><span class="category-list-count">1</span></li></ul></li></ul>
+    </div>
+
+
+        
+        
+  <div class="widget">
+    <h3 class="title">Tag Cloud</h3>
+    <div class="content tag-cloud">
+        
+            <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/SkyWalking/" style="font-size: 13.33px;">SkyWalking</a> <a href="/tags/SpringBoot/" style="font-size: 10px;">SpringBoot</a> <a href="/tags/alibaba/" style="font-size: 10px;">alibaba</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/elk/" style="font-size: 16.67px;">elk</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/html/" style="font-size: 13.33px;">html</a> <a href="/tags/idea/" style="font-size: 10px;">idea</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/sqoop/" style="font-size: 10px;">sqoop</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a>
+        
+    </div>
+  </div>
+
+
+        
+        
+
+        
+    </aside>
+
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+        Total:
+        <strong id="busuanzi_value_site_pv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; | &nbsp;
+        Visitors:
+        <strong id="busuanzi_value_site_uv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; <strong>Since 2018-12-26</strong>
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/itmuch/hexo-theme-itmuch.git" class="copyright-links" target="_blank" rel="nofollow">ITMuch</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/bootstrap-hover-dropdown.min.js"></script>
+
+	<script src="/js/search.js?rev=@@hash"></script>
+
+
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+
+
+</body>
+</html>

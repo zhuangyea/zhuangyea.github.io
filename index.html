@@ -1,0 +1,923 @@
+<!DOCTYPE HTML>
+<html lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="程序员Yz">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://zhuangyea.github.io">
+    <!--SEO-->
+
+    <meta name="keywords" content>
+
+
+    <meta name="description" content>
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+
+<title>程序员Yz</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="程序员Yz" type="application/atom+xml">
+
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?13766878cde148282622871dd245a973";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <nav class="navbar navbar-default" style="background-color:#fff;border:0;margin-bottom:0"
+                     role="navigation">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target="#navbar-collapse-1">
+                            <span class="sr-only">切</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="logo" href="/">
+                            <img src="/favicon.jpg"/>叶壮的博客
+                        </a>
+                    </div>
+
+                    <div class="collapse navbar-collapse" style="border:0;" id="navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            
+                                
+                                    <li>
+                                        <a href="/about" target="_blank">
+                                            <i class="fa fa-user"></i>
+                                            关于我
+                                        </a>
+                                    </li>
+                                
+                            
+                                
+                                    <li>
+                                        <a href="/archives" target="_blank">
+                                            <i class="fa fa-archive"></i>
+                                            归档
+                                        </a>
+                                    </li>
+                                
+                            
+                        </ul>
+                        
+                            <form id="search-form" class="navbar-form navbar-right">
+                                <div class="form-group input-group">
+                                    <input type="text" id="local-search-input" class="form-control"
+                                           placeholder="Search What？"/>
+                                    <span class="input-group-btn">
+                                        <a class="btn btn-default">
+                                            <i class="fa fa-search"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                                <div id="local-search-result" class="local-search-result-cls"></div>
+                            </form>
+                        
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content ">
+                    
+
+
+
+
+<article class="post">
+    
+        <div class="post-media">
+            <a target="_blank" href="/2020/08/11/docker/SkyWalking源码编译及调试/">
+                <img class="img-ajax" src="/img/loading.gif"  data-src="/img/source/docker/skywalking/15.png"   alt="SkyWalking源码编译及本地调试">
+            </a>
+        </div>
+    
+    <div class="post-content">
+        <div class="post-head home-post-head">
+            <h3 class="post-title">
+                <a href="/2020/08/11/docker/SkyWalking源码编译及调试/" target="_blank">SkyWalking源码编译及本地调试</a>
+            </h3>
+            <div class="post-meta">  &bull;
+                <time class="post-date" datetime="" title="">
+                    2020年08月11日
+                </time>
+            </div>
+        </div>
+        <p class="brief">
+            
+                一、环境说明
+Linux Centos7
+ElasticSearch 7.8.0
+SkyWalking 8.0.1
+JDK 1.8
+Idea 2020.01
+
+二、从 GitHub 构建
+预备好 Git, JDK8 以及 Maven3
+
+git clone https://github.com/apache/skywalking.git
+
+cd skywalking/
+
+使用 git checkout [tagname] 切换到指定的 tag (可选的, 只有当你想编译...
+            
+        </p>
+    </div>
+    
+        <footer class="post-footer clearfix">
+            <div class="pull-left tag-list">
+                <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/运维/">运维</a> <a class="category-link" href="/categories/运维/SkyWalking/">SkyWalking</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/SkyWalking/">SkyWalking</a>
+                
+            </span>
+        </span>
+    
+
+    
+</div>
+            </div>
+
+            <div class="post-permalink">
+                <a target="_blank" href="/2020/08/11/docker/SkyWalking源码编译及调试/" class="btn btn-default">Read</a>
+            </div>
+        </footer>
+    
+</article>
+
+
+<article class="post">
+    
+        <div class="post-media">
+            <a target="_blank" href="/2020/08/11/docker/使用docker-compose搭建SkyWalking环境/">
+                <img class="img-ajax" src="/img/loading.gif"  data-src="/img/source/docker/skywalking/19.png"   alt="使用docker-compose搭建SkyWalking环境">
+            </a>
+        </div>
+    
+    <div class="post-content">
+        <div class="post-head home-post-head">
+            <h3 class="post-title">
+                <a href="/2020/08/11/docker/使用docker-compose搭建SkyWalking环境/" target="_blank">使用docker-compose搭建SkyWalking环境</a>
+            </h3>
+            <div class="post-meta">  &bull;
+                <time class="post-date" datetime="" title="">
+                    2020年08月11日
+                </time>
+            </div>
+        </div>
+        <p class="brief">
+            
+                一、环境说明
+Linux Centos7
+ElasticSearch 7.8.0
+SkyWalking 8.0.1
+
+二、环境搭建
+编写docker-compose.yml文件
+12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849version: &#39;3.3&#39;services:  elasticsearch:    image: elasticse...
+            
+        </p>
+    </div>
+    
+        <footer class="post-footer clearfix">
+            <div class="pull-left tag-list">
+                <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/运维/">运维</a> <a class="category-link" href="/categories/运维/SkyWalking/">SkyWalking</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/SkyWalking/">SkyWalking</a>
+                
+            </span>
+        </span>
+    
+
+    
+</div>
+            </div>
+
+            <div class="post-permalink">
+                <a target="_blank" href="/2020/08/11/docker/使用docker-compose搭建SkyWalking环境/" class="btn btn-default">Read</a>
+            </div>
+        </footer>
+    
+</article>
+
+
+<article class="post">
+    
+    <div class="post-content">
+        <div class="post-head home-post-head">
+            <h3 class="post-title">
+                <a href="/2020/08/07/docker/docker环境及docker-compose环境安装/" target="_blank">linux下docker环境及docker-compose环境安装</a>
+            </h3>
+            <div class="post-meta">  &bull;
+                <time class="post-date" datetime="" title="">
+                    2020年08月07日
+                </time>
+            </div>
+        </div>
+        <p class="brief">
+            
+                一、docker环境搭建官网安装地址
+
+卸载旧版本
+较旧的Docker版本称为docker或docker-engine。如果已安装这些程序，请卸载它们以及相关的依赖项。
+12345678sudo yum remove docker \                 docker-client \                 docker-client-latest \                 docker-common \                 ...
+            
+        </p>
+    </div>
+    
+        <footer class="post-footer clearfix">
+            <div class="pull-left tag-list">
+                <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/运维/">运维</a> <a class="category-link" href="/categories/运维/docker/">docker</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/docker/">docker</a>
+                
+            </span>
+        </span>
+    
+
+    
+</div>
+            </div>
+
+            <div class="post-permalink">
+                <a target="_blank" href="/2020/08/07/docker/docker环境及docker-compose环境安装/" class="btn btn-default">Read</a>
+            </div>
+        </footer>
+    
+</article>
+
+
+<article class="post">
+    
+        <div class="post-media">
+            <a target="_blank" href="/2020/04/27/alibaba/canal安装及使用-JAVA/">
+                <img class="img-ajax" src="/img/loading.gif"  data-src="/img/alibaba/canal/13.png"   alt="Alibaba canal组件的安装及使用">
+            </a>
+        </div>
+    
+    <div class="post-content">
+        <div class="post-head home-post-head">
+            <h3 class="post-title">
+                <a href="/2020/04/27/alibaba/canal安装及使用-JAVA/" target="_blank">Alibaba canal组件的安装及使用</a>
+            </h3>
+            <div class="post-meta">  &bull;
+                <time class="post-date" datetime="" title="">
+                    2020年04月27日
+                </time>
+            </div>
+        </div>
+        <p class="brief">
+            
+                一、前言：环境准备   蓝色字体可点击，安装包下载
+
+Linux
+MySql 5.7
+canal 1.1.4
+canal-admin 1.1.4
+kafka_2.12-2.5.0
+apache-zookeeper-3.6.0
+
+
+二、名词解释
+canal [kə’næl]，译意为水道/管道/沟渠，主要用途是基于 MySQL 数据库增量日志解析，提供增量数据订阅和消费
+canal-admin 设计上是为canal提供整体配置管理、节点运维等面向运维的功能，提供相对友好的W...
+            
+        </p>
+    </div>
+    
+        <footer class="post-footer clearfix">
+            <div class="pull-left tag-list">
+                <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/alibaba/">alibaba</a> <a class="tag-link" href="/tags/java/">java</a>
+                
+            </span>
+        </span>
+    
+
+    
+</div>
+            </div>
+
+            <div class="post-permalink">
+                <a target="_blank" href="/2020/04/27/alibaba/canal安装及使用-JAVA/" class="btn btn-default">Read</a>
+            </div>
+        </footer>
+    
+</article>
+
+
+<article class="post">
+    
+    <div class="post-content">
+        <div class="post-head home-post-head">
+            <h3 class="post-title">
+                <a href="/2020/04/15/python/Python爬虫技术/框架比对/" target="_blank">Python爬虫技术/框架比对</a>
+            </h3>
+            <div class="post-meta">  &bull;
+                <time class="post-date" datetime="" title="">
+                    2020年04月15日
+                </time>
+            </div>
+        </div>
+        <p class="brief">
+            
+                
+
+
+技术
+区别
+描述
+
+
+
+Scrapy框架
+主流爬虫框架不适合新手扩展性高
+Scrapy框架是一套比较成熟的Python爬虫框架，是使用Python开发的快速、高层次的信息爬取框架，可以高效的爬取web页面并提取出结构化数据
+
+
+Portia框架
+无需编程基础无需开发页面配置
+Portia框架是一款允许没有任何编程基础的用户可视化地爬取网页的爬虫框架
+
+
+Crawley框架
+无
+Crawley也是Python开发出的爬虫框架，该框架致力于改变人们从互联网中提取数据的...
+            
+        </p>
+    </div>
+    
+        <footer class="post-footer clearfix">
+            <div class="pull-left tag-list">
+                <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/Python/">Python</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/Python/">Python</a>
+                
+            </span>
+        </span>
+    
+
+    
+</div>
+            </div>
+
+            <div class="post-permalink">
+                <a target="_blank" href="/2020/04/15/python/Python爬虫技术/框架比对/" class="btn btn-default">Read</a>
+            </div>
+        </footer>
+    
+</article>
+
+
+<article class="post">
+    
+    <div class="post-content">
+        <div class="post-head home-post-head">
+            <h3 class="post-title">
+                <a href="/2019/09/06/db/SQL函数/" target="_blank">SQL函数</a>
+            </h3>
+            <div class="post-meta">  &bull;
+                <time class="post-date" datetime="" title="">
+                    2019年09月06日
+                </time>
+            </div>
+        </div>
+        <p class="brief">
+            
+                
+SQL中字符串截取函数(SUBSTRING)
+
+left（name,4）截取左边的4个字符  SELECT LEFT(201809,4) 年  结果：2018
+
+right（name,2）截取右边的2个字符  SELECT RIGHT(201809,2) 月份  结果：09
+
+SUBSTRING(name,5,3) 截取name这个字段 从第五个字符开始 只截取之后的3个字符  SELECT SUBSTRING(‘成都融资事业部’,5,3)  结果：事业部
+
+SUBS...
+            
+        </p>
+    </div>
+    
+        <footer class="post-footer clearfix">
+            <div class="pull-left tag-list">
+                <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/数据库/">数据库</a>
+                
+            </span>
+        </span>
+    
+
+    
+</div>
+            </div>
+
+            <div class="post-permalink">
+                <a target="_blank" href="/2019/09/06/db/SQL函数/" class="btn btn-default">Read</a>
+            </div>
+        </footer>
+    
+</article>
+
+
+<article class="post">
+    
+    <div class="post-content">
+        <div class="post-head home-post-head">
+            <h3 class="post-title">
+                <a href="/2019/08/22/java/SpringBoot整合Redis及工具类编写/" target="_blank">SpringBoot整合Redis及工具类编写</a>
+            </h3>
+            <div class="post-meta">  &bull;
+                <time class="post-date" datetime="" title="">
+                    2019年08月22日
+                </time>
+            </div>
+        </div>
+        <p class="brief">
+            
+                一、简介SpringBoot框架中已经集成了redis，在1.x.x的版本时默认使用的jedis客户端，现在是2.x.x版本默认使用的lettuce客户端，两种客户端的区别如下：
+
+Jedis和Lettuce都是Redis Client
+Jedis 是直连模式，在多个线程间共享一个 Jedis 实例时是线程不安全的，
+如果想要在多线程环境下使用 Jedis，需要使用连接池，每个线程都去拿自己的 Jedis 实例，当连接数量增多时，物理连接成本就较高了。
+Lettuce的...
+            
+        </p>
+    </div>
+    
+        <footer class="post-footer clearfix">
+            <div class="pull-left tag-list">
+                <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/java/">java</a>
+                
+            </span>
+        </span>
+    
+
+    
+</div>
+            </div>
+
+            <div class="post-permalink">
+                <a target="_blank" href="/2019/08/22/java/SpringBoot整合Redis及工具类编写/" class="btn btn-default">Read</a>
+            </div>
+        </footer>
+    
+</article>
+
+
+<article class="post">
+    
+    <div class="post-content">
+        <div class="post-head home-post-head">
+            <h3 class="post-title">
+                <a href="/2019/08/09/java/Springboot-使用RestTemplate方式发HTTP请求及上传文件/" target="_blank">Springboot-使用RestTemplate方式发HTTP请求及上传文件</a>
+            </h3>
+            <div class="post-meta">  &bull;
+                <time class="post-date" datetime="" title="">
+                    2019年08月09日
+                </time>
+            </div>
+        </div>
+        <p class="brief">
+            
+                
+RestTemplate是Spring提供的用于访问Rest服务的客户端，RestTemplate提供了多种便捷访问远程Http服务的方法,能够大大提高客户端的编写效率。
+
+我基于RestTemplate编写了一个工具类，方便使用。工具类提供之提供了GET、POST、DELETE请求方法，其他方法自行补充
+
+
+Application启动类中实例RestTemplate
+1234567891011121314@SpringBootApplication@RestCont...
+            
+        </p>
+    </div>
+    
+        <footer class="post-footer clearfix">
+            <div class="pull-left tag-list">
+                <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/java/">java</a>
+                
+            </span>
+        </span>
+    
+
+    
+</div>
+            </div>
+
+            <div class="post-permalink">
+                <a target="_blank" href="/2019/08/09/java/Springboot-使用RestTemplate方式发HTTP请求及上传文件/" class="btn btn-default">Read</a>
+            </div>
+        </footer>
+    
+</article>
+
+
+<article class="post">
+    
+    <div class="post-content">
+        <div class="post-head home-post-head">
+            <h3 class="post-title">
+                <a href="/2019/05/10/java/java 远程执行Shell命令-通过Jsch连接/" target="_blank">java 远程执行Shell命令-通过Jsch连接</a>
+            </h3>
+            <div class="post-meta">  &bull;
+                <time class="post-date" datetime="" title="">
+                    2019年05月10日
+                </time>
+            </div>
+        </div>
+        <p class="brief">
+            
+                JSch是Java Secure Channel的缩写。JSch是一个SSH2的纯Java实现。它允许你连接到一个SSH服务器，并且可以使用端口转发，X11转发，文件传输等，当然你也可以集成它的功能到你自己的应用程序。
+本文只介绍如何使用JSch实现的SFTP功能。
+SFTP是Secure File Transfer Protocol的缩写，安全文件传送协议。可以为传输文件提供一种安全的加密方法。SFTP 为 SSH的一部份，是一种传输文件到服务器的安全方式。SFTP是...
+            
+        </p>
+    </div>
+    
+        <footer class="post-footer clearfix">
+            <div class="pull-left tag-list">
+                <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/java/">java</a>
+                
+            </span>
+        </span>
+    
+
+    
+</div>
+            </div>
+
+            <div class="post-permalink">
+                <a target="_blank" href="/2019/05/10/java/java 远程执行Shell命令-通过Jsch连接/" class="btn btn-default">Read</a>
+            </div>
+        </footer>
+    
+</article>
+
+
+<article class="post">
+    
+    <div class="post-content">
+        <div class="post-head home-post-head">
+            <h3 class="post-title">
+                <a href="/2019/05/06/hadoop/sqoop导入导出Mysql/" target="_blank">sqoop导入导出Mysql</a>
+            </h3>
+            <div class="post-meta">  &bull;
+                <time class="post-date" datetime="" title="">
+                    2019年05月06日
+                </time>
+            </div>
+        </div>
+        <p class="brief">
+            
+                hive命令
+12345678910111213141516171819202122show databases;     # 查看某个数据库use 数据库;            # 进入某个数据库show tables;        # 展示所有表desc 表名;            # 显示表结构show partitions 表名; # 显示表名的分区show create table_name;   # 显示创建表的结构truncate table 表名;...
+            
+        </p>
+    </div>
+    
+        <footer class="post-footer clearfix">
+            <div class="pull-left tag-list">
+                <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/hive/">hive</a> <a class="tag-link" href="/tags/sqoop/">sqoop</a>
+                
+            </span>
+        </span>
+    
+
+    
+</div>
+            </div>
+
+            <div class="post-permalink">
+                <a target="_blank" href="/2019/05/06/hadoop/sqoop导入导出Mysql/" class="btn btn-default">Read</a>
+            </div>
+        </footer>
+    
+</article>
+
+
+
+
+    <nav class="pagination" role="navigation">
+        <div id="page-nav">
+            <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class='fa fa-angle-right'></i></a>
+        </div>
+    </nav>
+
+
+
+                </main>
+                
+    <aside class="col-md-4 sidebar">
+        
+        
+    <div class="widget">
+        <h3 class="title">Categories</h3>
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Python/"><i class="fa" aria-hidden="true">Python</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品文档/"><i class="fa" aria-hidden="true">产品文档</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/"><i class="fa" aria-hidden="true">前端</i></a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/"><i class="fa" aria-hidden="true">运维</i></a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/运维/SkyWalking/"><i class="fa" aria-hidden="true">SkyWalking</i></a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/docker/"><i class="fa" aria-hidden="true">docker</i></a><span class="category-list-count">1</span></li></ul></li></ul>
+    </div>
+
+
+        
+        
+  <div class="widget">
+    <h3 class="title">Tag Cloud</h3>
+    <div class="content tag-cloud">
+        
+            <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/SkyWalking/" style="font-size: 13.33px;">SkyWalking</a> <a href="/tags/SpringBoot/" style="font-size: 10px;">SpringBoot</a> <a href="/tags/alibaba/" style="font-size: 10px;">alibaba</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/elk/" style="font-size: 16.67px;">elk</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/html/" style="font-size: 13.33px;">html</a> <a href="/tags/idea/" style="font-size: 10px;">idea</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/sqoop/" style="font-size: 10px;">sqoop</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a>
+        
+    </div>
+  </div>
+
+
+        
+        
+    <div class="widget">
+        <h3 class="title">Friends</h3>
+        <div class="content friends-link">
+        
+            <a href="http://www.itmuch.com/" class="fa" target="_blank">周立的博客</a>
+        
+            <a href="http://blog.didispace.com/" class="fa" target="_blank">程序猿DD|翟永超</a>
+        
+            <a href="http://www.bysocket.com/" class="fa" target="_blank">泥瓦匠的博客</a>
+        
+            <a href="http://blog.720ui.com/" class="fa" target="_blank">梁桂钊的博客</a>
+        
+            <a href="http://cxytiandi.com/" class="fa" target="_blank">猿天地</a>
+        
+            <a href="http://eryajf.net/" class="fa" target="_blank">二丫讲梵</a>
+        
+            <a href="https://anoyi.com" class="fa" target="_blank">ANOYI轻量级微服务架构</a>
+        
+            <a href="https://www.yuanrenxue.com/" class="fa" target="_blank">python教程</a>
+        
+            <a href="http://www.liangsonghua.me" class="fa" target="_blank">京东资深SRE工程师</a>
+        
+            <a href="https://wangxin.io/" class="fa" target="_blank">王欣的博客</a>
+        
+            <a href="https://easyai.tech/" class="fa" target="_blank">PM的AI知识库</a>
+        
+        </div>
+    </div>
+
+
+        
+    </aside>
+
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+        Total:
+        <strong id="busuanzi_value_site_pv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; | &nbsp;
+        Visitors:
+        <strong id="busuanzi_value_site_uv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; <strong>Since 2018-12-26</strong>
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/itmuch/hexo-theme-itmuch.git" class="copyright-links" target="_blank" rel="nofollow">ITMuch</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/bootstrap-hover-dropdown.min.js"></script>
+
+	<script src="/js/search.js?rev=@@hash"></script>
+
+
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+
+
+</body>
+</html>

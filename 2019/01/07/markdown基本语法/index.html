@@ -1,0 +1,490 @@
+<!DOCTYPE HTML>
+<html lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="程序员Yz">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://zhuangyea.github.io">
+    <!--SEO-->
+
+    <meta name="keywords" content="html">
+
+
+    <meta name="description" content="
+我是标题# 我是标题
+我是小一号标题`## 我是小一号标题``
+我是小小一号标题### 我是小小一号标题
+我是小小小一号标题#### 我是小小小一号标题
+我是小小小小一号标题##### 我是小小小小一号标题
+我是最小标题###### 我是最小标题
+
+
+
+加粗**字体加粗**
+
+字体倾斜*字体...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+
+<title>markdown基本语法 | 程序员Yz</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="程序员Yz" type="application/atom+xml">
+
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?13766878cde148282622871dd245a973";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <nav class="navbar navbar-default" style="background-color:#fff;border:0;margin-bottom:0"
+                     role="navigation">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target="#navbar-collapse-1">
+                            <span class="sr-only">切</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="logo" href="/">
+                            <img src="/favicon.jpg"/>叶壮的博客
+                        </a>
+                    </div>
+
+                    <div class="collapse navbar-collapse" style="border:0;" id="navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            
+                                
+                                    <li>
+                                        <a href="/about" target="_blank">
+                                            <i class="fa fa-user"></i>
+                                            关于我
+                                        </a>
+                                    </li>
+                                
+                            
+                                
+                                    <li>
+                                        <a href="/archives" target="_blank">
+                                            <i class="fa fa-archive"></i>
+                                            归档
+                                        </a>
+                                    </li>
+                                
+                            
+                        </ul>
+                        
+                            <form id="search-form" class="navbar-form navbar-right">
+                                <div class="form-group input-group">
+                                    <input type="text" id="local-search-input" class="form-control"
+                                           placeholder="Search What？"/>
+                                    <span class="input-group-btn">
+                                        <a class="btn btn-default">
+                                            <i class="fa fa-search"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                                <div id="local-search-result" class="local-search-result-cls"></div>
+                            </form>
+                        
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    
+
+<p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="markdown基本语法">
+            
+                markdown基本语法
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/前端/">前端</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/html/">html</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2019/01/07</span>
+        </span>
+        
+            <span class="fa-wrap">
+                <i class="fa fa-eye"></i>
+                <span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    
+</div>
+        
+        
+    </div>
+    
+    <div class="post-body post-content">
+        
+    <div class="toc-article">
+        <strong>
+            Table of Contents
+        </strong>
+        <div class="toc-content">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#我是标题"><span class="toc-text">我是标题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#我是小一号标题"><span class="toc-text">我是小一号标题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#我是小小一号标题"><span class="toc-text">我是小小一号标题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#我是小小小一号标题"><span class="toc-text">我是小小小一号标题</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#我是小小小小一号标题"><span class="toc-text">我是小小小小一号标题</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#我是最小标题"><span class="toc-text">我是最小标题</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></li></ol>
+        </div>
+    </div>
+
+
+        <ul>
+<li><h1 id="我是标题"><a href="#我是标题" class="headerlink" title="我是标题"></a>我是标题</h1><code># 我是标题</code></li>
+<li><h2 id="我是小一号标题"><a href="#我是小一号标题" class="headerlink" title="我是小一号标题"></a>我是小一号标题</h2>`## 我是小一号标题``</li>
+<li><h3 id="我是小小一号标题"><a href="#我是小小一号标题" class="headerlink" title="我是小小一号标题"></a>我是小小一号标题</h3><code>### 我是小小一号标题</code></li>
+<li><h4 id="我是小小小一号标题"><a href="#我是小小小一号标题" class="headerlink" title="我是小小小一号标题"></a>我是小小小一号标题</h4><code>#### 我是小小小一号标题</code></li>
+<li><h5 id="我是小小小小一号标题"><a href="#我是小小小小一号标题" class="headerlink" title="我是小小小小一号标题"></a>我是小小小小一号标题</h5><code>##### 我是小小小小一号标题</code></li>
+<li><h6 id="我是最小标题"><a href="#我是最小标题" class="headerlink" title="我是最小标题"></a>我是最小标题</h6><code>###### 我是最小标题</code></li>
+</ul>
+<hr>
+<ul>
+<li><p><strong>加粗</strong><br><code>**字体加粗**</code></p>
+</li>
+<li><p><em>字体倾斜</em><br><code>*字体倾斜*</code></p>
+</li>
+<li><p><strong><em>斜体加粗的文字</em></strong><br><code>***斜体加粗的文字***</code></p>
+</li>
+<li><p><del>删除线文字</del><br><code>~~删除线文字~~</code></p>
+</li>
+<li><p><font color="red">我是红色字体</font><br><code>&lt;font color=&quot;red&quot; size=&quot;4&quot;&gt;我是号红色字体&lt;/font&gt;</code></p>
+</li>
+</ul>
+<hr>
+<ul>
+<li><blockquote>
+<p>我是引用</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; 我是引用</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><a href="https://zhuangyea.github.io/">我是连接</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- [我是连接](https://zhuangyea.github.io/)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><img src="/img/source/20180811192750229.png" alt="image" title="我是图片描述"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">![image](/img/source/20180811192750229.png &quot;我是图片描述&quot;)</span><br><span class="line">另一种方式：</span><br><span class="line">&lt;img src=&quot;/img/source/20180811192750229.png&quot; title=&quot;我是图片描述&quot; width=&quot;200px&quot;/&gt;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<hr>
+<ul>
+<li>华丽丽的分割线<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">***</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<hr>
+<ul>
+<li>表格</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>左侧表格1</th>
+<th align="center">居中表格2</th>
+<th align="right">右侧表格3</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>你好啊</td>
+<td align="center">咧好<br>啊</td>
+<td align="right">雷好啊</td>
+</tr>
+<tr>
+<td><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;font color=&quot;red&quot;&gt;*&lt;/font&gt;表格上方空一行</span><br><span class="line"></span><br><span class="line">左侧表格1|居中表格2|右侧表格3</span><br><span class="line">-|:-:|-:</span><br><span class="line">你好啊|咧好&lt;br/&gt;啊|雷好啊</span><br></pre></td></tr></table></figure></td>
+<td align="center"></td>
+<td align="right"></td>
+</tr>
+</tbody></table>
+<ul>
+<li>自定义表格
+<table>
+  <tr>
+    <th>表格1</th>
+    <th>表格2</th>
+    <th>表格3</th>
+  </tr>
+  <tr>
+    <td>a1</td>
+    <td colspan="2">a2</td>
+  </tr>
+  <tr>
+    <td rowspan="2">b1</td>
+    <td>b2</td>
+    <td>b3</td>
+  </tr>
+  <tr>
+    <td>c2</td>
+    <td>c3</td>
+  </tr>
+</table>
+
+<font color="red">需要注意的一点是，在markdown中使用html代码来实现表格的效果，需要在表格的外面套上（转义），防止markdown直接将代码中的行进行转义成回车，不然会出现表格前空了一大块空白。</font><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;escape&gt;</span><br><span class="line">&lt;table&gt;</span><br><span class="line">  &lt;tr&gt;</span><br><span class="line">    &lt;th&gt;表格1&lt;/th&gt;</span><br><span class="line">    &lt;th&gt;表格2&lt;/th&gt;</span><br><span class="line">    &lt;th&gt;表格3&lt;/th&gt;</span><br><span class="line">  &lt;/tr&gt;</span><br><span class="line">  &lt;tr&gt;</span><br><span class="line">    &lt;td&gt;a1&lt;/td&gt;</span><br><span class="line">    &lt;td colspan=&quot;2&quot;&gt;a2&lt;/td&gt;</span><br><span class="line">  &lt;/tr&gt;</span><br><span class="line">  &lt;tr&gt;</span><br><span class="line">    &lt;td rowspan=&quot;2&quot;&gt;b1&lt;/td&gt;</span><br><span class="line">    &lt;td&gt;b2&lt;/td&gt;</span><br><span class="line">    &lt;td&gt;b3&lt;/td&gt;</span><br><span class="line">  &lt;/tr&gt;</span><br><span class="line">  &lt;tr&gt;</span><br><span class="line">    &lt;td&gt;c2&lt;/td&gt;</span><br><span class="line">    &lt;td&gt;c3&lt;/td&gt;</span><br><span class="line">  &lt;/tr&gt;</span><br><span class="line">&lt;/table&gt;</span><br><span class="line">&lt;/escape&gt;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<hr>
+<ul>
+<li>无序段落<ul>
+<li>段落2<ul>
+<li>段落3</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- 无序段落</span><br><span class="line">    - 段落2</span><br><span class="line">        - 段落3</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>有序段落<ol>
+<li>段落2</li>
+<li>段落3</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">注意.后面加空格</span><br><span class="line">1. 段落2</span><br><span class="line">2. 段落3</span><br></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p>借鉴文章如下：<br><a href="https://www.jianshu.com/p/191d1e21f7ed" target="_blank" rel="noopener">Markdown基本语法</a><br><a href="https://3nice.cc/2018/10/01/markdowntable/" target="_blank" rel="noopener">解决在Markdown中的表格单元格合并的问题</a></p>
+</blockquote>
+
+        <h2>相关文章</h2><ul><li><a href="/2019/01/07/markdown基本布局/">markdown基本布局</a></li></ul>
+    </div>
+    
+    <div class="post-footer">
+        <div class="col-sm-10">
+            <div>
+                <b>本文链接</b>：<a href="/2019/01/07/markdown基本语法/" target="_blank">markdown基本语法</a>
+            </div>
+            <div>
+                
+                    转载声明：本博客由叶壮创作，采用 <a href="https://creativecommons.org/licenses/by-nc-nd/3.0/" target="_blank"> CC BY 3.0 CN </a> 许可协议。可自由转载、引用，但需署名作者且注明文章出处。如转载至微信公众号，请在文末添加作者公众号二维码。
+                
+            </div>
+            <div>
+                
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <img src="/icons/wx.jpg" width=100%/>
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a target="_blank" href="/2019/01/07/markdown基本布局/" class="pre-post btn btn-default"
+           title='markdown基本布局'>
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">markdown基本布局</span>
+        </a>
+    
+    
+        <a target="_blank" href="/2019/01/07/产品设计2/" class="next-post btn btn-default"
+           title='产品设计2'>
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">产品设计2</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+   <p>评论系统未开启，无法评论！</p>
+
+    </div>
+
+
+
+
+
+
+                </main>
+                
+    <aside class="col-md-4 sidebar">
+        
+        
+    <div class="widget">
+        <h3 class="title">Categories</h3>
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Python/"><i class="fa" aria-hidden="true">Python</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品文档/"><i class="fa" aria-hidden="true">产品文档</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link current" href="/categories/前端/"><i class="fa" aria-hidden="true">前端</i></a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/"><i class="fa" aria-hidden="true">运维</i></a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/运维/SkyWalking/"><i class="fa" aria-hidden="true">SkyWalking</i></a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/docker/"><i class="fa" aria-hidden="true">docker</i></a><span class="category-list-count">1</span></li></ul></li></ul>
+    </div>
+
+
+        
+        
+  <div class="widget">
+    <h3 class="title">Tag Cloud</h3>
+    <div class="content tag-cloud">
+        
+            <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/SkyWalking/" style="font-size: 13.33px;">SkyWalking</a> <a href="/tags/SpringBoot/" style="font-size: 10px;">SpringBoot</a> <a href="/tags/alibaba/" style="font-size: 10px;">alibaba</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/elk/" style="font-size: 16.67px;">elk</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/html/" style="font-size: 13.33px;">html</a> <a href="/tags/idea/" style="font-size: 10px;">idea</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/sqoop/" style="font-size: 10px;">sqoop</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a>
+        
+    </div>
+  </div>
+
+
+        
+        
+
+        
+    </aside>
+
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+        Total:
+        <strong id="busuanzi_value_site_pv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; | &nbsp;
+        Visitors:
+        <strong id="busuanzi_value_site_uv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; <strong>Since 2018-12-26</strong>
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/itmuch/hexo-theme-itmuch.git" class="copyright-links" target="_blank" rel="nofollow">ITMuch</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/bootstrap-hover-dropdown.min.js"></script>
+
+	<script src="/js/search.js?rev=@@hash"></script>
+
+
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+
+
+</body>
+</html>
