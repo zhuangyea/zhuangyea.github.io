@@ -167,6 +167,45 @@
         <div class="post-content">
             <div class="post-head home-post-head">
                 <h1 class="post-title">
+                    <a href="/2020/08/13/docker/使用docker-compose搭建Prometheus+Grafana监控系统性能/">使用docker-compose搭建Prometheus+Grafana监控系统性能</a>
+                </h1>
+                <div class="post-meta">  &bull;
+                    <time class="post-date" datetime="" title="">
+                        2020年08月13日
+                    </time>
+                </div>
+            </div>
+            <p class="brief">
+                
+                    概念与设计总览
+Prometheus 是一个开源的服务监控系统和时间序列数据库
+Grafana是开源的可视化和分析软件
+
+一、环境说明
+Linux Centos7
+docker-compose
+
+
+二、安装node_exporter
+node_exporter用于采集系统信息，github地址
+
+前往https://github.com/prometheus/node_exporter/releases列表下载对应系统的最新文件
+
+
+解压
+
+
+启动：./node_exp...
+                
+            </p>
+        </div>
+    </article>
+ 
+    <article class="post">
+        
+        <div class="post-content">
+            <div class="post-head home-post-head">
+                <h1 class="post-title">
                     <a href="/2020/08/11/docker/SkyWalking源码编译及调试/">SkyWalking源码编译及本地调试</a>
                 </h1>
                 <div class="post-meta">  &bull;
@@ -177,21 +216,9 @@
             </div>
             <p class="brief">
                 
-                    一、环境说明
-Linux Centos7
-ElasticSearch 7.8.0
-SkyWalking 8.0.1
-JDK 1.8
-Idea 2020.01
-
-二、从 GitHub 构建
-预备好 Git, JDK8 以及 Maven3
-
-git clone https://github.com/apache/skywalking.git
-
-cd skywalking/
-
-使用 git checkout [tagname] 切换到指定的 tag (可选的, 只有当你想编译...
+                    概念与设计总览
+SkyWalking: 一个开源的可观测平台, 用于从服务和云原生基础设施收集, 分析, 聚合及可视化数据。SkyWalking 提供了一种简便的方式来清晰地观测分布式系统, 甚至横跨多个云平台。SkyWalking 更是一个现代化的应用程序性能监控(Application Performance Monitoring)系统, 尤其专为云原生、基于容器的分布式系统设计
+为什么使用SkyWalking：在许多不同的场景下, SkyWalking 为观察和监...
                 
             </p>
         </div>
@@ -266,7 +293,7 @@ SkyWalking 8.0.1
         
     <div class="widget">
         <h3 class="title">Categories</h3>
-        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Python/"><i class="fa" aria-hidden="true">Python</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品文档/"><i class="fa" aria-hidden="true">产品文档</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/"><i class="fa" aria-hidden="true">前端</i></a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link current" href="/categories/运维/"><i class="fa" aria-hidden="true">运维</i></a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/运维/SkyWalking/"><i class="fa" aria-hidden="true">SkyWalking</i></a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/docker/"><i class="fa" aria-hidden="true">docker</i></a><span class="category-list-count">1</span></li></ul></li></ul>
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Python/"><i class="fa" aria-hidden="true">Python</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品文档/"><i class="fa" aria-hidden="true">产品文档</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/"><i class="fa" aria-hidden="true">前端</i></a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link current" href="/categories/运维/"><i class="fa" aria-hidden="true">运维</i></a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/运维/Prometheus/"><i class="fa" aria-hidden="true">Prometheus</i></a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/运维/Prometheus/Grafana/"><i class="fa" aria-hidden="true">Grafana</i></a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/运维/Prometheus/Grafana/Docker/"><i class="fa" aria-hidden="true">Docker</i></a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/SkyWalking/"><i class="fa" aria-hidden="true">SkyWalking</i></a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/运维/SkyWalking/Docker/"><i class="fa" aria-hidden="true">Docker</i></a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/docker/"><i class="fa" aria-hidden="true">docker</i></a><span class="category-list-count">1</span></li></ul></li></ul>
     </div>
 
 
@@ -276,7 +303,7 @@ SkyWalking 8.0.1
     <h3 class="title">Tag Cloud</h3>
     <div class="content tag-cloud">
         
-            <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/SkyWalking/" style="font-size: 13.33px;">SkyWalking</a> <a href="/tags/SpringBoot/" style="font-size: 10px;">SpringBoot</a> <a href="/tags/alibaba/" style="font-size: 10px;">alibaba</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/elk/" style="font-size: 16.67px;">elk</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/html/" style="font-size: 13.33px;">html</a> <a href="/tags/idea/" style="font-size: 10px;">idea</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/sqoop/" style="font-size: 10px;">sqoop</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a>
+            <a href="/tags/Docker/" style="font-size: 13.33px;">Docker</a> <a href="/tags/Grafana/" style="font-size: 10px;">Grafana</a> <a href="/tags/Prometheus/" style="font-size: 10px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/SkyWalking/" style="font-size: 13.33px;">SkyWalking</a> <a href="/tags/SpringBoot/" style="font-size: 10px;">SpringBoot</a> <a href="/tags/alibaba/" style="font-size: 10px;">alibaba</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/elk/" style="font-size: 16.67px;">elk</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/html/" style="font-size: 13.33px;">html</a> <a href="/tags/idea/" style="font-size: 10px;">idea</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/sqoop/" style="font-size: 10px;">sqoop</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/运维/" style="font-size: 13.33px;">运维</a>
         
     </div>
   </div>
