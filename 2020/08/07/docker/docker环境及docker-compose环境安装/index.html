@@ -245,9 +245,10 @@
 <hr>
 <h3 id="三、docker配置文件修改"><a href="#三、docker配置文件修改" class="headerlink" title="三、docker配置文件修改"></a>三、docker配置文件修改</h3><ol>
 <li><p>修改配置文件（如果文件不存在，创建一个）</p>
-<p><code>vim /etc/docker/docker/daemon.json</code></p>
+<p><code>vim /etc/docker/daemon.json</code></p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"debug"</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">"registry-mirrors"</span>: [</span><br><span class="line">    <span class="string">"http://hub-mirror.c.163.com"</span>,</span><br><span class="line">    <span class="string">"https://registry.aliyuncs.com"</span>,</span><br><span class="line">    <span class="string">"https://registry.docker-cn.com"</span>,</span><br><span class="line">    <span class="string">"https://docker.mirrors.ustc.edu.cn"</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">"insecure-registries"</span>: [</span><br><span class="line">    <span class="string">"ip:host"</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">"experimental"</span>: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+</li>
+<li><p>重启docker<br><code>systemctl start docker.service</code><br><code>systemctl status docker.service</code></p>
 </li>
 </ol>
 <h3 id="四、docker常用命令"><a href="#四、docker常用命令" class="headerlink" title="四、docker常用命令"></a>四、docker常用命令</h3><ol>

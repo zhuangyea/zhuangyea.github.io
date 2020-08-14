@@ -32,7 +32,7 @@
     <!--Title-->
 
 
-<title>Tag: docker | 程序员Yz</title>
+<title>Tag: Docker | 程序员Yz</title>
 
 
     <link rel="alternate" href="/atom.xml" title="程序员Yz" type="application/atom+xml">
@@ -153,8 +153,8 @@
     
         <li>
             <a href="/tags" target="_blank">标签</a> /
-            <a href="/tags/docker" target="_blank">
-                docker
+            <a href="/tags/Docker" target="_blank">
+                Docker
             </a>
         </li>
     
@@ -168,21 +168,63 @@
         <div class="post-content">
             <div class="post-head home-post-head">
                 <h1 class="post-title">
-                    <a href="/2020/08/07/docker/docker环境及docker-compose环境安装/">linux下docker环境及docker-compose环境安装</a>
+                    <a href="/2020/08/13/docker/使用docker-compose搭建Prometheus+Grafana监控系统性能/">使用docker-compose搭建Prometheus+Grafana监控系统性能</a>
                 </h1>
                 <div class="post-meta">  &bull;
                     <time class="post-date" datetime="" title="">
-                        2020年08月07日
+                        2020年08月13日
                     </time>
                 </div>
             </div>
             <p class="brief">
                 
-                    一、docker环境搭建官网安装地址
+                    概念与设计总览
+Prometheus 是一个开源的服务监控系统和时间序列数据库
+Grafana是开源的可视化和分析软件
 
-卸载旧版本
-较旧的Docker版本称为docker或docker-engine。如果已安装这些程序，请卸载它们以及相关的依赖项。
-12345678sudo yum remove docker \                 docker-client \                 docker-client-latest \                 docker-common \                 ...
+一、环境说明
+Linux Centos7
+docker-compose
+
+
+二、安装node_exporter
+node_exporter用于采集系统信息，github地址
+
+前往https://github.com/prometheus/node_exporter/releases列表下载对应系统的最新文件
+
+
+解压
+
+
+启动：./node_exp...
+                
+            </p>
+        </div>
+    </article>
+ 
+    <article class="post">
+        
+        <div class="post-content">
+            <div class="post-head home-post-head">
+                <h1 class="post-title">
+                    <a href="/2020/08/11/docker/使用docker-compose搭建SkyWalking环境/">使用docker-compose搭建SkyWalking环境</a>
+                </h1>
+                <div class="post-meta">  &bull;
+                    <time class="post-date" datetime="" title="">
+                        2020年08月11日
+                    </time>
+                </div>
+            </div>
+            <p class="brief">
+                
+                    一、环境说明
+Linux Centos7
+ElasticSearch 7.8.0
+SkyWalking 8.0.1
+
+二、环境搭建
+编写docker-compose.yml文件
+12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849version: &#39;3.3&#39;services:  elasticsearch:    image: elasticse...
                 
             </p>
         </div>
@@ -254,46 +296,6 @@
         &nbsp; | &nbsp;
         Visitors:
         <strong id="busuanzi_value_site_uv">
-            <i class="fa fa-spinner fa-spin"></i>
-        </strong>
-        &nbsp; <strong>Since 2018-12-26</strong>
-    
-</div>
-
-            </div>
-            <div class="col-sm-12">
-                <span>Copyright &copy; 2017
-                </span> |
-                <span>
-                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
-                </span> |
-                <span>
-                    Theme by <a href="//github.com/itmuch/hexo-theme-itmuch.git" class="copyright-links" target="_blank" rel="nofollow">ITMuch</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script src="/js/jquery.min.js"></script>
-<script src="/js/bootstrap.min.js"></script>
-<script src="/js/bootstrap-hover-dropdown.min.js"></script>
-
-	<script src="/js/search.js?rev=@@hash"></script>
-
-
-
-
-
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
-<script src="/js/app.js?rev=@@hash"></script>
-
-
-
-</body>
-</html>g id="busuanzi_value_site_uv">
             <i class="fa fa-spinner fa-spin"></i>
         </strong>
         &nbsp; <strong>Since 2018-12-26</strong>
