@@ -30,8 +30,8 @@ Linux Centos7
 docker-compose
 
 
-二、安装node_exporter
-node_exporter用于采集系统信息，github地址...">
+二、安装node_exporter（选装，注意prometheus.yml配置）
+node_ex...">
 
 
 
@@ -212,7 +212,7 @@ node_exporter用于采集系统信息，github地址...">
             Table of Contents
         </strong>
         <div class="toc-content">
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概念与设计总览"><span class="toc-text">概念与设计总览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一、环境说明"><span class="toc-text">一、环境说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、安装node-exporter"><span class="toc-text">二、安装node_exporter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、docker-compose安装Prometheus"><span class="toc-text">三、docker-compose安装Prometheus</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、docker-compose安装Grafana"><span class="toc-text">四、docker-compose安装Grafana</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概念与设计总览"><span class="toc-text">概念与设计总览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一、环境说明"><span class="toc-text">一、环境说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、安装node-exporter（选装，注意prometheus-yml配置）"><span class="toc-text">二、安装node_exporter（选装，注意prometheus.yml配置）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、安装mysql-exporter（选装，注意prometheus-yml配置）"><span class="toc-text">三、安装mysql_exporter（选装，注意prometheus.yml配置）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、docker-compose安装Prometheus"><span class="toc-text">四、docker-compose安装Prometheus</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五、docker-compose安装Grafana"><span class="toc-text">五、docker-compose安装Grafana</span></a></li></ol>
         </div>
     </div>
 
@@ -226,7 +226,7 @@ node_exporter用于采集系统信息，github地址...">
 <li>docker-compose</li>
 </ul>
 <hr>
-<h2 id="二、安装node-exporter"><a href="#二、安装node-exporter" class="headerlink" title="二、安装node_exporter"></a>二、安装node_exporter</h2><ol>
+<h2 id="二、安装node-exporter（选装，注意prometheus-yml配置）"><a href="#二、安装node-exporter（选装，注意prometheus-yml配置）" class="headerlink" title="二、安装node_exporter（选装，注意prometheus.yml配置）"></a>二、安装node_exporter（选装，注意prometheus.yml配置）</h2><ol>
 <li><p>node_exporter用于采集系统信息，<a href="https://github.com/prometheus/node_exporter" target="_blank" rel="noopener">github地址</a></p>
 </li>
 <li><p>前往<a href="https://github.com/prometheus/node_exporter/releases" target="_blank" rel="noopener">https://github.com/prometheus/node_exporter/releases</a>列表下载对应系统的最新文件</p>
@@ -235,7 +235,7 @@ node_exporter用于采集系统信息，github地址...">
 <li><p>解压</p>
 <p><img src="/img/source/docker/prometheus/3.png" alt="image.png"></p>
 </li>
-<li><p>启动：./node_exporter &amp;</p>
+<li><p>启动：./node_exporter –web.listen-address=”:9100” &amp;</p>
 <p><img src="/img/source/docker/prometheus/4.png" alt="image.png"></p>
 </li>
 <li><p>打开页面：<a href="http://localhost:9100" target="_blank" rel="noopener">http://localhost:9100</a></p>
@@ -243,12 +243,26 @@ node_exporter用于采集系统信息，github地址...">
 </li>
 </ol>
 <hr>
-<h2 id="三、docker-compose安装Prometheus"><a href="#三、docker-compose安装Prometheus" class="headerlink" title="三、docker-compose安装Prometheus"></a>三、docker-compose安装Prometheus</h2><ol>
+<h2 id="三、安装mysql-exporter（选装，注意prometheus-yml配置）"><a href="#三、安装mysql-exporter（选装，注意prometheus-yml配置）" class="headerlink" title="三、安装mysql_exporter（选装，注意prometheus.yml配置）"></a>三、安装mysql_exporter（选装，注意prometheus.yml配置）</h2><ol>
+<li><p>mysql_exporter用于采集Mysql信息，<a href="https://github.com/prometheus/mysqld_exporter" target="_blank" rel="noopener">github地址</a></p>
+</li>
+<li><p>前往<a href="https://github.com/prometheus/mysqld_exporter/releases" target="_blank" rel="noopener">https://github.com/prometheus/mysqld_exporter/releases</a>列表下载对应系统的最新文件</p>
+</li>
+<li><p>解压。参考第二步图片</p>
+</li>
+<li><p>启动。[为选填参数]</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export DATA_SOURCE_NAME='root:yourpass@(127.0.0.1:30009)/[dbname]';</span><br><span class="line">./mysqld_exporter-0.12.1.linux-amd64/mysqld_exporter --web.listen-address=0.0.0.0:30008 --config.my-cnf /opt/software/docker/mysql5.7/mysql/my.cnf</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>打开页面 <a href="http://localhost:30008" target="_blank" rel="noopener">http://localhost:30008</a></p>
+</li>
+</ol>
+<hr>
+<h2 id="四、docker-compose安装Prometheus"><a href="#四、docker-compose安装Prometheus" class="headerlink" title="四、docker-compose安装Prometheus"></a>四、docker-compose安装Prometheus</h2><ol>
 <li><p>编写docker-compose.yml</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">version: '3.3'</span><br><span class="line">services:</span><br><span class="line">  prometheus:</span><br><span class="line">    image: prom/prometheus:latest</span><br><span class="line">    container_name: prometheus</span><br><span class="line">    restart: always</span><br><span class="line">    privileged: true</span><br><span class="line">    user: root</span><br><span class="line">    ports:</span><br><span class="line">      - 9090:9090</span><br><span class="line">    volumes:</span><br><span class="line">      #将刚刚准备好的defaults.ini直接映射到/usr/share/grafana/conf/defaults.ini路径</span><br><span class="line">      - ./prometheus.yml:/etc/prometheus/prometheus.yml</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>新建prometheus.yml并配置node exporter监控数据</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> my global config</span><br><span class="line">global:</span><br><span class="line">  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.</span><br><span class="line">  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.</span><br><span class="line"><span class="meta">  #</span> scrape_timeout is set to the global default (10s).</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Alertmanager configuration</span><br><span class="line">alerting:</span><br><span class="line">  alertmanagers:</span><br><span class="line">  - static_configs:</span><br><span class="line">    - targets:</span><br><span class="line">      # - alertmanager:9093</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Load rules once and periodically evaluate them according to the global 'evaluation_interval'.</span><br><span class="line">rule_files:</span><br><span class="line"><span class="meta">  #</span> - "first_rules.yml"</span><br><span class="line"><span class="meta">  #</span> - "second_rules.yml"</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> A scrape configuration containing exactly one endpoint to scrape:</span><br><span class="line"><span class="meta">#</span> Here it's Prometheus itself.</span><br><span class="line">scrape_configs:</span><br><span class="line"><span class="meta">  #</span> The job name is added as a label `job=&lt;job_name&gt;` to any timeseries scraped from this config.</span><br><span class="line">  - job_name: 'prometheus'</span><br><span class="line"></span><br><span class="line">    # metrics_path defaults to '/metrics'</span><br><span class="line">    # scheme defaults to 'http'.</span><br><span class="line"></span><br><span class="line">    static_configs:</span><br><span class="line">    - targets: ['docker.for.mac.host.internal:9090'] # 服务器上使用内网ip</span><br><span class="line"><span class="meta">  #</span> 采集node exporter监控数据</span><br><span class="line">  - job_name: 'node'</span><br><span class="line">    static_configs:</span><br><span class="line">    - targets: ['docker.for.mac.localhost:9100']  # 服务器上使用内网ip</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> my global config</span><br><span class="line">global:</span><br><span class="line">  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.</span><br><span class="line">  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.</span><br><span class="line"><span class="meta">  #</span> scrape_timeout is set to the global default (10s).</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Alertmanager configuration</span><br><span class="line">alerting:</span><br><span class="line">  alertmanagers:</span><br><span class="line">  - static_configs:</span><br><span class="line">    - targets:</span><br><span class="line">      # - alertmanager:9093</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Load rules once and periodically evaluate them according to the global 'evaluation_interval'.</span><br><span class="line">rule_files:</span><br><span class="line"><span class="meta">  #</span> - "first_rules.yml"</span><br><span class="line"><span class="meta">  #</span> - "second_rules.yml"</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> A scrape configuration containing exactly one endpoint to scrape:</span><br><span class="line"><span class="meta">#</span> Here it's Prometheus itself.</span><br><span class="line">scrape_configs:</span><br><span class="line"><span class="meta">  #</span> The job name is added as a label `job=&lt;job_name&gt;` to any timeseries scraped from this config.</span><br><span class="line">  - job_name: 'prometheus'</span><br><span class="line"></span><br><span class="line">    # metrics_path defaults to '/metrics'</span><br><span class="line">    # scheme defaults to 'http'.</span><br><span class="line"></span><br><span class="line">    static_configs:</span><br><span class="line">    - targets: ['docker.for.mac.host.internal:9090'] # 服务器上使用内网ip</span><br><span class="line"><span class="meta">  #</span> 采集node exporter监控数据</span><br><span class="line">  - job_name: 'node'</span><br><span class="line">    static_configs:</span><br><span class="line">    - targets: ['docker.for.mac.localhost:9100']  # 服务器上使用内网ip</span><br><span class="line"><span class="meta">  #</span> 采集mysql exporter监控数据</span><br><span class="line">  - job_name: 'mysql'</span><br><span class="line">    static_configs:</span><br><span class="line">    - targets: ['docker.for.mac.localhost:30008']  # 服务器上使用内网ip</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>启动docker</p>
 <p>启动容器：<code>docker-compose up -d</code></p>
@@ -264,7 +278,7 @@ node_exporter用于采集系统信息，github地址...">
 </li>
 </ol>
 <hr>
-<h2 id="四、docker-compose安装Grafana"><a href="#四、docker-compose安装Grafana" class="headerlink" title="四、docker-compose安装Grafana"></a>四、docker-compose安装Grafana</h2><ol>
+<h2 id="五、docker-compose安装Grafana"><a href="#五、docker-compose安装Grafana" class="headerlink" title="五、docker-compose安装Grafana"></a>五、docker-compose安装Grafana</h2><ol>
 <li><p>编写docker-compose.yml</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">version: '3.3'</span><br><span class="line">services:</span><br><span class="line">  grafana:</span><br><span class="line">    image: grafana/grafana:latest</span><br><span class="line">    container_name: grafana</span><br><span class="line">    restart: always</span><br><span class="line">    privileged: true</span><br><span class="line">    user: root</span><br><span class="line">    ports:</span><br><span class="line">      - 3000:3000</span><br><span class="line">    environment:</span><br><span class="line">      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource</span><br><span class="line">    volumes:</span><br><span class="line">      #将刚刚准备好的defaults.ini直接映射到/usr/share/grafana/conf/defaults.ini路径</span><br><span class="line">      - ./config/defaults.ini:/usr/share/grafana/conf/defaults.ini</span><br><span class="line">      #data目录，如果使用了默认的sqlite3数据库，则文件会存在这边</span><br><span class="line">      - ./data/grafana:/var/lib/grafana</span><br><span class="line">      #log目录，后期会写入log文件</span><br><span class="line">      - ./log:/var/log/grafana</span><br><span class="line"><span class="meta">  #</span> 添加插件 *注意修改defaults.ini文件：server_url = http://renderer:8081/render</span><br><span class="line"><span class="meta">#</span>  renderer:</span><br><span class="line"><span class="meta">#</span>    image: grafana/grafana-image-renderer</span><br><span class="line"><span class="meta">#</span>    restart: always</span><br><span class="line"><span class="meta">#</span>    ports:</span><br><span class="line"><span class="meta">#</span>      - 8081:8081</span><br><span class="line"><span class="meta">#</span>    container_name: renderer</span><br><span class="line"><span class="meta">#</span>    environment:</span><br><span class="line"><span class="meta">#</span>      - GF_RENDERER_PLUGIN_TZ=Asia/Shanghai</span><br><span class="line"><span class="meta">#</span>      - GF_RENDERER_PLUGIN_IGNORE_HTTPS_ERRORS=true</span><br></pre></td></tr></table></figure>
 </li>
@@ -284,7 +298,13 @@ node_exporter用于采集系统信息，github地址...">
 <p><img src="/img/source/docker/prometheus/8.png" alt="image.png"></p>
 </li>
 <li><p>寻找别人配置好的模板，其他模板查看<a href="https://grafana.com/grafana/dashboards" target="_blank" rel="noopener">https://grafana.com/grafana/dashboards</a></p>
+<ol>
+<li><p>导入mysql_exporter模板，<a href="https://grafana.com/grafana/dashboards/8919" target="_blank" rel="noopener">https://grafana.com/grafana/dashboards/8919</a></p>
 <p><img src="/img/source/docker/prometheus/9.png" alt="image.png"></p>
+</li>
+<li><p>导入mysql_exporter模板，<a href="https://grafana.com/grafana/dashboards/7362" target="_blank" rel="noopener">https://grafana.com/grafana/dashboards/7362</a></p>
+</li>
+</ol>
 </li>
 <li><p>导入模板</p>
 <p><img src="/img/source/docker/prometheus/10.png" alt="image.png"></p>
