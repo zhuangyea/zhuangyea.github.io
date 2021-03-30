@@ -1,0 +1,375 @@
+<!DOCTYPE HTML>
+<html lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="程序员Yz">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://zhuangyea.github.io">
+    <!--SEO-->
+
+    <meta name="keywords" content="java">
+
+
+    <meta name="description" content="前置 创建实体类及初始化集合
+12345678910111213static class User &#123;    public User(String name, Integer age) &#123;        this.name = name;        this.age =...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+
+<title>jdk8流试语法 | 程序员Yz</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="程序员Yz" type="application/atom+xml">
+
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?13766878cde148282622871dd245a973";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <nav class="navbar navbar-default" style="background-color:#fff;border:0;margin-bottom:0"
+                     role="navigation">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target="#navbar-collapse-1">
+                            <span class="sr-only">切</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="logo" href="/">
+                            <img src="/favicon.jpg"/>叶壮的博客
+                        </a>
+                    </div>
+
+                    <div class="collapse navbar-collapse" style="border:0;" id="navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            
+                                
+                                    <li>
+                                        <a href="/about" target="_blank">
+                                            <i class="fa fa-user"></i>
+                                            关于我
+                                        </a>
+                                    </li>
+                                
+                            
+                                
+                                    <li>
+                                        <a href="/archives" target="_blank">
+                                            <i class="fa fa-archive"></i>
+                                            归档
+                                        </a>
+                                    </li>
+                                
+                            
+                        </ul>
+                        
+                            <form id="search-form" class="navbar-form navbar-right">
+                                <div class="form-group input-group">
+                                    <input type="text" id="local-search-input" class="form-control"
+                                           placeholder="Search What？"/>
+                                    <span class="input-group-btn">
+                                        <a class="btn btn-default">
+                                            <i class="fa fa-search"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                                <div id="local-search-result" class="local-search-result-cls"></div>
+                            </form>
+                        
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    
+
+<p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="jdk8流试语法">
+            
+                jdk8流试语法
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/jdk/">jdk</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/java/">java</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2021/03/30</span>
+        </span>
+        
+            <span class="fa-wrap">
+                <i class="fa fa-eye"></i>
+                <span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    
+</div>
+        
+        
+    </div>
+    
+    <div class="post-body post-content">
+        
+    <div class="toc-article">
+        <strong>
+            Table of Contents
+        </strong>
+        <div class="toc-content">
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前置"><span class="toc-text">前置</span></a></li></ol>
+        </div>
+    </div>
+
+
+        <h3 id="前置"><a href="#前置" class="headerlink" title="前置"></a>前置</h3><p> 创建实体类及初始化集合</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(String name, Integer age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">        <span class="comment">// 忽略 get、set、toString、constructor</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> List&lt;User&gt; <span class="title">initList</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> Arrays.asList(<span class="keyword">new</span> User(<span class="string">"lisa"</span>, <span class="number">23</span>), <span class="keyword">new</span> User(<span class="string">"mack"</span>, <span class="number">19</span>),</span><br><span class="line">            <span class="keyword">new</span> User(<span class="string">"jennis"</span>, <span class="number">26</span>), <span class="keyword">new</span> User(<span class="string">"tin"</span>, <span class="number">26</span>),</span><br><span class="line">            <span class="keyword">new</span> User(<span class="string">"tom"</span>, <span class="number">11</span>), <span class="keyword">new</span> User(<span class="string">"army"</span>, <span class="number">26</span>),</span><br><span class="line">            <span class="keyword">new</span> User(<span class="string">"jobs"</span>, <span class="number">65</span>), <span class="keyword">new</span> User(<span class="string">"john"</span>, <span class="number">16</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<ul>
+<li><p>集合筛选</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; strings = Arrays.asList(<span class="string">"abc"</span>, <span class="string">""</span>, <span class="string">"bc"</span>, <span class="string">"efg"</span>, <span class="string">"abcd"</span>, <span class="string">""</span>, <span class="string">"jkl"</span>);</span><br><span class="line">List&lt;String&gt; filtered = strings.stream().filter(string -&gt; !string.isEmpty()).collect(Collectors.toList());</span><br><span class="line">System.out.println(<span class="string">"筛选列表: "</span> + filtered);</span><br><span class="line"></span><br><span class="line">结果：</span><br><span class="line">    筛选列表: [abc, bc, efg, abcd, jkl]</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"\n====================过滤年龄小于11的数据==================="</span>);</span><br><span class="line">users = initList();</span><br><span class="line">List&lt;User&gt; userList = users.stream().filter(o -&gt; o.getAge() &gt; <span class="number">11</span>).collect(Collectors.toList());</span><br><span class="line">userList.forEach(System.out::println);</span><br><span class="line">结果：</span><br><span class="line">    ====================过滤年龄小于<span class="number">11</span>的数据===================</span><br><span class="line">    User&#123;name=<span class="string">'lisa'</span>, age=<span class="number">23</span>&#125;</span><br><span class="line">    User&#123;name=<span class="string">'john'</span>, age=<span class="number">16</span>&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>集合字段非空过滤及字符串拼接</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; strings = Arrays.asList(<span class="string">"abc"</span>, <span class="string">""</span>, <span class="string">"bc"</span>, <span class="string">"efg"</span>, <span class="string">"abcd"</span>, <span class="string">""</span>, <span class="string">"jkl"</span>);</span><br><span class="line">String mergedString = strings.stream().filter(string -&gt; !string.isEmpty()).collect(Collectors.joining(<span class="string">","</span>));</span><br><span class="line">System.out.println(<span class="string">"合并字符串: "</span> + mergedString);</span><br><span class="line"></span><br><span class="line">结果：</span><br><span class="line">    合并字符串: abc,bc,efg,abcd,jkl</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>集合中数组长度是否一致</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Double[]&gt; a = Arrays.asList(<span class="keyword">new</span> Double[]&#123;<span class="number">2</span>D, <span class="number">2</span>D&#125;, <span class="keyword">new</span> Double[]&#123;<span class="number">1</span>D, <span class="number">2</span>D&#125;);</span><br><span class="line"><span class="keyword">long</span> count = a.stream().map(num -&gt; num.length).distinct().count();</span><br><span class="line">System.out.println(<span class="string">"判断集合中数组长度是否一致: "</span> + (count == <span class="number">1</span> ? <span class="keyword">true</span> : <span class="keyword">false</span>));</span><br><span class="line"></span><br><span class="line">结果：</span><br><span class="line">    判断集合中数组长度是否一致: <span class="keyword">true</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>排序</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; integer = Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">5</span>);</span><br><span class="line">integer.sort(Comparator.reverseOrder());</span><br><span class="line">System.out.println(<span class="string">"基本类型倒序："</span> + integer);</span><br><span class="line">结果：</span><br><span class="line">    基本类型倒序：[<span class="number">6</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">integer = Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">5</span>);</span><br><span class="line">Collections.sort(integer);</span><br><span class="line">System.out.println(<span class="string">"基本类型正序："</span> + integer);</span><br><span class="line">结果：</span><br><span class="line">    基本类型倒序：[<span class="number">6</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"\n====================根据集合中数组第一个值升序==================="</span>);</span><br><span class="line">List&lt;Double[]&gt; collect = a.stream().sorted((x, y) -&gt; x[<span class="number">0</span>] &gt; y[<span class="number">0</span>] ? <span class="number">1</span> : -<span class="number">1</span>).collect(Collectors.toList());</span><br><span class="line">collect.forEach(o -&gt; System.out.println(Arrays.toString(o)));</span><br><span class="line">结果：</span><br><span class="line">    ====================根据集合中数组第一个值升序===================</span><br><span class="line">    [<span class="number">1.0</span>, <span class="number">2.0</span>]</span><br><span class="line">    [<span class="number">2.0</span>, <span class="number">2.0</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"\n====================对象集合升序==================="</span>);</span><br><span class="line">List&lt;User&gt; users = initList();</span><br><span class="line">Collections.sort(users, Comparator.comparing(User::getAge));</span><br><span class="line">users.forEach(System.out::println);</span><br><span class="line">结果：</span><br><span class="line">    ====================对象集合升序===================</span><br><span class="line">    User&#123;name=<span class="string">'tom'</span>, age=<span class="number">11</span>&#125;</span><br><span class="line">    User&#123;name=<span class="string">'john'</span>, age=<span class="number">16</span>&#125;</span><br><span class="line">    User&#123;name=<span class="string">'mack'</span>, age=<span class="number">19</span>&#125;</span><br><span class="line">    User&#123;name=<span class="string">'lisa'</span>, age=<span class="number">23</span>&#125;</span><br><span class="line">    User&#123;name=<span class="string">'jennis'</span>, age=<span class="number">26</span>&#125;</span><br><span class="line">    User&#123;name=<span class="string">'tin'</span>, age=<span class="number">26</span>&#125;</span><br><span class="line">    User&#123;name=<span class="string">'army'</span>, age=<span class="number">26</span>&#125;</span><br><span class="line">    User&#123;name=<span class="string">'jobs'</span>, age=<span class="number">65</span>&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"\n====================对象集合降序==================="</span>);</span><br><span class="line">users = initList();</span><br><span class="line">users.sort(Comparator.comparing(User::getAge).reversed());</span><br><span class="line">users.forEach(System.out::println);</span><br><span class="line">结果：</span><br><span class="line">    ====================对象集合降序===================</span><br><span class="line">    User&#123;name=<span class="string">'jobs'</span>, age=<span class="number">65</span>&#125;</span><br><span class="line">    User&#123;name=<span class="string">'jennis'</span>, age=<span class="number">26</span>&#125;</span><br><span class="line">    User&#123;name=<span class="string">'tin'</span>, age=<span class="number">26</span>&#125;</span><br><span class="line">    User&#123;name=<span class="string">'army'</span>, age=<span class="number">26</span>&#125;</span><br><span class="line">    User&#123;name=<span class="string">'lisa'</span>, age=<span class="number">23</span>&#125;</span><br><span class="line">    User&#123;name=<span class="string">'mack'</span>, age=<span class="number">19</span>&#125;</span><br><span class="line">    User&#123;name=<span class="string">'john'</span>, age=<span class="number">16</span>&#125;</span><br><span class="line">    User&#123;name=<span class="string">'tom'</span>, age=<span class="number">11</span>&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"\n====================自定义对象集合排序==================="</span>);</span><br><span class="line">users = initList();</span><br><span class="line">users.sort((o1, o2) -&gt; o1.getAge() &gt; o2.getAge() ? <span class="number">1</span> : -<span class="number">1</span>);</span><br><span class="line">users.forEach(System.out::println);</span><br><span class="line">结果：</span><br><span class="line">    ====================自定义对象集合排序===================</span><br><span class="line">    User&#123;name=<span class="string">'tom'</span>, age=<span class="number">11</span>&#125;</span><br><span class="line">    User&#123;name=<span class="string">'john'</span>, age=<span class="number">16</span>&#125;</span><br><span class="line">    User&#123;name=<span class="string">'mack'</span>, age=<span class="number">19</span>&#125;</span><br><span class="line">    User&#123;name=<span class="string">'lisa'</span>, age=<span class="number">23</span>&#125;</span><br><span class="line">    User&#123;name=<span class="string">'army'</span>, age=<span class="number">26</span>&#125;</span><br><span class="line">    User&#123;name=<span class="string">'tin'</span>, age=<span class="number">26</span>&#125;</span><br><span class="line">    User&#123;name=<span class="string">'jennis'</span>, age=<span class="number">26</span>&#125;</span><br><span class="line">    User&#123;name=<span class="string">'jobs'</span>, age=<span class="number">65</span>&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"\n====================jdk8 组合排序，Comparator提供的静态方法，先按年纪排序，年纪相同的按名称排序==================="</span>);</span><br><span class="line">users = initList();</span><br><span class="line">Collections.sort(users, Comparator.comparing(User::getAge).thenComparing(User::getName));</span><br><span class="line">users.forEach(System.out::println);</span><br><span class="line">结果:</span><br><span class="line">    ====================jdk8 组合排序，Comparator提供的静态方法，先按年纪排序，年纪相同的按名称排序===================</span><br><span class="line">    User&#123;name=<span class="string">'tom'</span>, age=<span class="number">11</span>&#125;</span><br><span class="line">    User&#123;name=<span class="string">'john'</span>, age=<span class="number">16</span>&#125;</span><br><span class="line">    User&#123;name=<span class="string">'mack'</span>, age=<span class="number">19</span>&#125;</span><br><span class="line">    User&#123;name=<span class="string">'lisa'</span>, age=<span class="number">23</span>&#125;</span><br><span class="line">    User&#123;name=<span class="string">'army'</span>, age=<span class="number">26</span>&#125;</span><br><span class="line">    User&#123;name=<span class="string">'jennis'</span>, age=<span class="number">26</span>&#125;</span><br><span class="line">    User&#123;name=<span class="string">'tin'</span>, age=<span class="number">26</span>&#125;</span><br><span class="line">    User&#123;name=<span class="string">'jobs'</span>, age=<span class="number">65</span>&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+
+        <h2>相关文章</h2><ul><li><a href="/2020/04/27/alibaba/canal安装及使用-JAVA/">Alibaba canal组件的安装及使用</a></li><li><a href="/2019/08/22/java/SpringBoot整合Redis及工具类编写/">SpringBoot整合Redis及工具类编写</a></li><li><a href="/2019/03/25/java/SpringBoot连接MongoDB(单节点)/">SpringBoot连接MongoDB(单节点)</a></li><li><a href="/2019/03/25/java/thread/">springboot启动类（Application.java）中配置线程池大小</a></li><li><a href="/2019/04/24/java/UnitTest单元测试/">UnitTest单元测试</a></li></ul>
+    </div>
+    
+    <div class="post-footer">
+        <div class="col-sm-10">
+            <div>
+                <b>本文链接</b>：<a href="/2021/03/30/jdk8/jdk8流式语法/" target="_blank">jdk8流试语法</a>
+            </div>
+            <div>
+                
+                    转载声明：本博客由叶壮创作，采用 <a href="https://creativecommons.org/licenses/by-nc-nd/3.0/" target="_blank"> CC BY 3.0 CN </a> 许可协议。可自由转载、引用，但需署名作者且注明文章出处。如转载至微信公众号，请在文末添加作者公众号二维码。
+                
+            </div>
+            <div>
+                
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <img src="/icons/wx.jpg" width=100%/>
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+    
+        <a target="_blank" href="/2020/08/13/docker/使用docker-compose搭建Prometheus+Grafana监控系统性能/" class="next-post btn btn-default"
+           title='使用docker-compose搭建Prometheus+Grafana监控系统性能'>
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">使用docker-compose搭建Prometheus+Grafana监控系统性能</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+   <p>评论系统未开启，无法评论！</p>
+
+    </div>
+
+
+
+
+
+
+                </main>
+                
+    <aside class="col-md-4 sidebar">
+        
+        
+    <div class="widget">
+        <h3 class="title">Categories</h3>
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Python/"><i class="fa" aria-hidden="true">Python</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link current" href="/categories/jdk/"><i class="fa" aria-hidden="true">jdk</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品文档/"><i class="fa" aria-hidden="true">产品文档</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/"><i class="fa" aria-hidden="true">前端</i></a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/"><i class="fa" aria-hidden="true">运维</i></a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/运维/Prometheus/"><i class="fa" aria-hidden="true">Prometheus</i></a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/运维/Prometheus/Grafana/"><i class="fa" aria-hidden="true">Grafana</i></a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/运维/Prometheus/Grafana/Docker/"><i class="fa" aria-hidden="true">Docker</i></a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/SkyWalking/"><i class="fa" aria-hidden="true">SkyWalking</i></a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/运维/SkyWalking/Docker/"><i class="fa" aria-hidden="true">Docker</i></a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/docker/"><i class="fa" aria-hidden="true">docker</i></a><span class="category-list-count">1</span></li></ul></li></ul>
+    </div>
+
+
+        
+        
+  <div class="widget">
+    <h3 class="title">Tag Cloud</h3>
+    <div class="content tag-cloud">
+        
+            <a href="/tags/Docker/" style="font-size: 13.33px;">Docker</a> <a href="/tags/Grafana/" style="font-size: 10px;">Grafana</a> <a href="/tags/Prometheus/" style="font-size: 10px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/SkyWalking/" style="font-size: 13.33px;">SkyWalking</a> <a href="/tags/SpringBoot/" style="font-size: 10px;">SpringBoot</a> <a href="/tags/alibaba/" style="font-size: 10px;">alibaba</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/elk/" style="font-size: 16.67px;">elk</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/html/" style="font-size: 13.33px;">html</a> <a href="/tags/idea/" style="font-size: 10px;">idea</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/sqoop/" style="font-size: 10px;">sqoop</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/运维/" style="font-size: 13.33px;">运维</a>
+        
+    </div>
+  </div>
+
+
+        
+        
+
+        
+    </aside>
+
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+        Total:
+        <strong id="busuanzi_value_site_pv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; | &nbsp;
+        Visitors:
+        <strong id="busuanzi_value_site_uv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; <strong>Since 2018-12-26</strong>
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/itmuch/hexo-theme-itmuch.git" class="copyright-links" target="_blank" rel="nofollow">ITMuch</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/bootstrap-hover-dropdown.min.js"></script>
+
+	<script src="/js/search.js?rev=@@hash"></script>
+
+
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+
+
+</body>
+</html>
