@@ -158,7 +158,7 @@
     <div class="post-content">
         <div class="post-head home-post-head">
             <h3 class="post-title">
-                <a href="/2019/03/25/java/thread/" target="_blank">springboot启动类（Application.java）中配置线程池大小</a>
+                <a href="/2019/03/25/elk/ElasticSearch插件SearchGuard及IK安装/" target="_blank">ElasticSearch插件SearchGuard/IK安装</a>
             </h3>
             <div class="post-meta">  &bull;
                 <time class="post-date" datetime="" title="">
@@ -168,7 +168,12 @@
         </div>
         <p class="brief">
             
-                123456789@Bean(name = &#34;crawlExecutorPool&#34;)    public ExecutorService crawlExecutorPool() &amp;#123;        // 获取Java虚拟机的可用的处理器数，最佳线程个数，处理器数*2。根据实际情况调整        int curSystemThreads = Runtime.getRuntime().availableProcessors() * 2;        Syste...
+                1.Search Guard（安全认证）
+切换到elasticsearch目录，通过使用elasticsearch plugin命令安装Search Guard插件
+1./bin/elasticsearch-plugin install -b com.floragunn:search-guard-6:&amp;lt;version&amp;gt;
+
+参数参考: https://github.com/floragunncom/search-guard/wiki
+1例：./bin/elas...
             
         </p>
     </div>
@@ -188,7 +193,7 @@
             <i class="fa fa-tags"></i>
             <span class="tags-meta">
                 
-                    <a class="tag-link" href="/tags/java/">java</a>
+                    <a class="tag-link" href="/tags/elk/">elk</a>
                 
             </span>
         </span>
@@ -199,7 +204,7 @@
             </div>
 
             <div class="post-permalink">
-                <a target="_blank" href="/2019/03/25/java/thread/" class="btn btn-default">Read</a>
+                <a target="_blank" href="/2019/03/25/elk/ElasticSearch插件SearchGuard及IK安装/" class="btn btn-default">Read</a>
             </div>
         </footer>
     
@@ -267,74 +272,6 @@
 
             <div class="post-permalink">
                 <a target="_blank" href="/2019/01/07/markdown基本布局/" class="btn btn-default">Read</a>
-            </div>
-        </footer>
-    
-</article>
-
-
-<article class="post">
-    
-        <div class="post-media">
-            <a target="_blank" href="/2019/01/07/产品设计2/">
-                <img class="img-ajax" src="/img/loading.gif"  data-src="/14.jpg"   alt="产品设计2">
-            </a>
-        </div>
-    
-    <div class="post-content">
-        <div class="post-head home-post-head">
-            <h3 class="post-title">
-                <a href="/2019/01/07/产品设计2/" target="_blank">产品设计2</a>
-            </h3>
-            <div class="post-meta">  &bull;
-                <time class="post-date" datetime="" title="">
-                    2019年01月07日
-                </time>
-            </div>
-        </div>
-        <p class="brief">
-            
-                4 交互设计4.1 交互概论回顾产品结构：基于前期的需求分析及市场竞品分析等为依据，将各个需求点以及某种逻辑系统化的组织起来所形成的立体结构。基于该结构，可以顺利的引导用户行为或将各类信息进行顺畅的流转
-操作系统从最初的DOC系统&amp;gt;win98&amp;gt;winXP&amp;gt;win7&amp;gt;win8&amp;gt;win10,从最初专业到普及就是交互设计的不断改进。
-
-UI 用户界面
-UE 用户体验
-IXD 交互设计
-
-什么是交互：
-
-两个或多个互动的个体之间交流的内容和结构，使...
-            
-        </p>
-    </div>
-    
-        <footer class="post-footer clearfix">
-            <div class="pull-left tag-list">
-                <div class="post-meta">
-    
-        <span class="categories-meta fa-wrap">
-            <i class="fa fa-folder-open-o"></i>
-            <a class="category-link" href="/categories/产品文档/">产品文档</a>
-        </span>
-    
-
-    
-        <span class="fa-wrap">
-            <i class="fa fa-tags"></i>
-            <span class="tags-meta">
-                
-                    <a class="tag-link" href="/tags/产品/">产品</a>
-                
-            </span>
-        </span>
-    
-
-    
-</div>
-            </div>
-
-            <div class="post-permalink">
-                <a target="_blank" href="/2019/01/07/产品设计2/" class="btn btn-default">Read</a>
             </div>
         </footer>
     
@@ -412,6 +349,74 @@ IXD 交互设计
 
             <div class="post-permalink">
                 <a target="_blank" href="/2019/01/07/markdown基本语法/" class="btn btn-default">Read</a>
+            </div>
+        </footer>
+    
+</article>
+
+
+<article class="post">
+    
+        <div class="post-media">
+            <a target="_blank" href="/2019/01/07/产品设计2/">
+                <img class="img-ajax" src="/img/loading.gif"  data-src="/22.png"   alt="产品设计2">
+            </a>
+        </div>
+    
+    <div class="post-content">
+        <div class="post-head home-post-head">
+            <h3 class="post-title">
+                <a href="/2019/01/07/产品设计2/" target="_blank">产品设计2</a>
+            </h3>
+            <div class="post-meta">  &bull;
+                <time class="post-date" datetime="" title="">
+                    2019年01月07日
+                </time>
+            </div>
+        </div>
+        <p class="brief">
+            
+                4 交互设计4.1 交互概论回顾产品结构：基于前期的需求分析及市场竞品分析等为依据，将各个需求点以及某种逻辑系统化的组织起来所形成的立体结构。基于该结构，可以顺利的引导用户行为或将各类信息进行顺畅的流转
+操作系统从最初的DOC系统&amp;gt;win98&amp;gt;winXP&amp;gt;win7&amp;gt;win8&amp;gt;win10,从最初专业到普及就是交互设计的不断改进。
+
+UI 用户界面
+UE 用户体验
+IXD 交互设计
+
+什么是交互：
+
+两个或多个互动的个体之间交流的内容和结构，使...
+            
+        </p>
+    </div>
+    
+        <footer class="post-footer clearfix">
+            <div class="pull-left tag-list">
+                <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/产品文档/">产品文档</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/产品/">产品</a>
+                
+            </span>
+        </span>
+    
+
+    
+</div>
+            </div>
+
+            <div class="post-permalink">
+                <a target="_blank" href="/2019/01/07/产品设计2/" class="btn btn-default">Read</a>
             </div>
         </footer>
     

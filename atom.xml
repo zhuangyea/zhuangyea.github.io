@@ -73,11 +73,11 @@
     
       <category term="运维" scheme="http://zhuangyea.github.io/tags/%E8%BF%90%E7%BB%B4/"/>
     
+      <category term="Docker" scheme="http://zhuangyea.github.io/tags/Docker/"/>
+    
       <category term="Prometheus" scheme="http://zhuangyea.github.io/tags/Prometheus/"/>
     
       <category term="Grafana" scheme="http://zhuangyea.github.io/tags/Grafana/"/>
-    
-      <category term="Docker" scheme="http://zhuangyea.github.io/tags/Docker/"/>
     
   </entry>
   
@@ -139,9 +139,9 @@
     
       <category term="运维" scheme="http://zhuangyea.github.io/tags/%E8%BF%90%E7%BB%B4/"/>
     
-      <category term="Docker" scheme="http://zhuangyea.github.io/tags/Docker/"/>
-    
       <category term="SkyWalking" scheme="http://zhuangyea.github.io/tags/SkyWalking/"/>
+    
+      <category term="Docker" scheme="http://zhuangyea.github.io/tags/Docker/"/>
     
   </entry>
   
@@ -336,6 +336,30 @@
   </entry>
   
   <entry>
+    <title>通过IDEA连接Hive数据库</title>
+    <link href="http://zhuangyea.github.io/2019/05/06/idea/%E4%BD%BF%E7%94%A8IDEA%20Database%20Tool%E8%BF%9E%E6%8E%A5Hive%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    <id>http://zhuangyea.github.io/2019/05/06/idea/使用IDEA Database Tool连接Hive数据库/</id>
+    <published>2019-05-06T07:00:00.000Z</published>
+    <updated>2019-08-22T07:51:30.643Z</updated>
+    
+    <content type="html"><![CDATA[<p>版本介绍：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Idea: 2018.1</span><br><span class="line">hive: 1.6</span><br></pre></td></tr></table></figure><hr><p>步骤如下：</p><ol><li><p>打开Database<br><img src="/img/source/idea/idea_database_tool.png" alt="image.png"></p></li><li><p>因为IDEA没有内置hive的驱动，所以需要自己新建一个Driver，如下图：</p><p> 2.1 先打开Database工具，选择Database Source Properties<br><img src="/img/source/idea/idea_database_tool1.png" alt="image.png"></p><p> 2.2 选择新建Driver<br><img src="/img/source/idea/idea_database_driver.png" alt="image.png"></p><p> 2.3 选择后自动跳转出现新建Driver配置页面</p><p> 修改Name名字（命名驱动的名字，此处我命名为HIVE2）<br> 点击+，添加hive相关驱动jar包,点击下载【<a href="/template/idea/hive-lib.zip">hive-lib</a>】<br><img src="/img/source/idea/idea_database_tool2.png" alt="image.png"></p><p> 2.4 如果hive版本是最新版本可以根据下图操作<br><img src="/img/source/idea/idea_database_tool5.png" alt="image.png"></p></li></ol><hr><p>效果演示<br><img src="/img/source/idea/idea_database_tool4.png" alt="image.png"></p><blockquote><p>借鉴文章如下(如果涉及侵权，请联系作者进行删除、修改):<br><a href="https://blog.csdn.net/u010814849/article/details/77649724" target="_blank" rel="noopener">使用IDEA Database Tool连接Hive数据库</a></p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;版本介绍：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;b
+      
+    
+    </summary>
+    
+    
+      <category term="idea" scheme="http://zhuangyea.github.io/tags/idea/"/>
+    
+  </entry>
+  
+  <entry>
     <title>sqoop导入导出Mysql</title>
     <link href="http://zhuangyea.github.io/2019/05/06/hadoop/sqoop%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BAMysql/"/>
     <id>http://zhuangyea.github.io/2019/05/06/hadoop/sqoop导入导出Mysql/</id>
@@ -358,30 +382,6 @@
       <category term="sqoop" scheme="http://zhuangyea.github.io/tags/sqoop/"/>
     
       <category term="hive" scheme="http://zhuangyea.github.io/tags/hive/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>通过IDEA连接Hive数据库</title>
-    <link href="http://zhuangyea.github.io/2019/05/06/idea/%E4%BD%BF%E7%94%A8IDEA%20Database%20Tool%E8%BF%9E%E6%8E%A5Hive%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    <id>http://zhuangyea.github.io/2019/05/06/idea/使用IDEA Database Tool连接Hive数据库/</id>
-    <published>2019-05-06T07:00:00.000Z</published>
-    <updated>2019-08-22T07:51:30.643Z</updated>
-    
-    <content type="html"><![CDATA[<p>版本介绍：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Idea: 2018.1</span><br><span class="line">hive: 1.6</span><br></pre></td></tr></table></figure><hr><p>步骤如下：</p><ol><li><p>打开Database<br><img src="/img/source/idea/idea_database_tool.png" alt="image.png"></p></li><li><p>因为IDEA没有内置hive的驱动，所以需要自己新建一个Driver，如下图：</p><p> 2.1 先打开Database工具，选择Database Source Properties<br><img src="/img/source/idea/idea_database_tool1.png" alt="image.png"></p><p> 2.2 选择新建Driver<br><img src="/img/source/idea/idea_database_driver.png" alt="image.png"></p><p> 2.3 选择后自动跳转出现新建Driver配置页面</p><p> 修改Name名字（命名驱动的名字，此处我命名为HIVE2）<br> 点击+，添加hive相关驱动jar包,点击下载【<a href="/template/idea/hive-lib.zip">hive-lib</a>】<br><img src="/img/source/idea/idea_database_tool2.png" alt="image.png"></p><p> 2.4 如果hive版本是最新版本可以根据下图操作<br><img src="/img/source/idea/idea_database_tool5.png" alt="image.png"></p></li></ol><hr><p>效果演示<br><img src="/img/source/idea/idea_database_tool4.png" alt="image.png"></p><blockquote><p>借鉴文章如下(如果涉及侵权，请联系作者进行删除、修改):<br><a href="https://blog.csdn.net/u010814849/article/details/77649724" target="_blank" rel="noopener">使用IDEA Database Tool连接Hive数据库</a></p></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;版本介绍：&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;b
-      
-    
-    </summary>
-    
-    
-      <category term="idea" scheme="http://zhuangyea.github.io/tags/idea/"/>
     
   </entry>
   
@@ -510,30 +510,6 @@
   </entry>
   
   <entry>
-    <title>ElasticSearch插件SearchGuard/IK安装</title>
-    <link href="http://zhuangyea.github.io/2019/03/25/elk/ElasticSearch%E6%8F%92%E4%BB%B6SearchGuard%E5%8F%8AIK%E5%AE%89%E8%A3%85/"/>
-    <id>http://zhuangyea.github.io/2019/03/25/elk/ElasticSearch插件SearchGuard及IK安装/</id>
-    <published>2019-03-25T13:20:00.000Z</published>
-    <updated>2019-03-26T01:44:43.434Z</updated>
-    
-    <content type="html"><![CDATA[<p>1.<a href="https://docs.search-guard.com/latest/index" target="_blank" rel="noopener">Search Guard</a>（安全认证）</p><p>切换到elasticsearch目录，通过使用elasticsearch plugin命令安装Search Guard插件</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./bin/elasticsearch-plugin install -b com.floragunn:search-guard-6:&lt;version&gt;</span><br></pre></td></tr></table></figure><p><version>参数参考: <a href="https://github.com/floragunncom/search-guard/wiki" target="_blank" rel="noopener">https://github.com/floragunncom/search-guard/wiki</a></version></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">例：./bin/elasticsearch-plugin install -b com.floragunn:search-guard-6:6.6.2-24.2</span><br></pre></td></tr></table></figure><hr><ol start="2"><li><a href="https://github.com/medcl/elasticsearch-analysis-ik" target="_blank" rel="noopener">IK分词器</a></li></ol><p>切换到elasticsearch目录，通过使用elasticsearch plugin命令安装IK插件</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v&lt;version&gt;/elasticsearch-analysis-ik-&lt;version&gt;.zip</span><br></pre></td></tr></table></figure><p><version>参数参考: <a href="https://github.com/medcl/elasticsearch-analysis-ik/releases" target="_blank" rel="noopener">https://github.com/medcl/elasticsearch-analysis-ik/releases</a></version></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">例：./bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.6.2/elasticsearch-analysis-ik-6.6.2.zip</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;1.&lt;a href=&quot;https://docs.search-guard.com/latest/index&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Search Guard&lt;/a&gt;（安全认证）&lt;/p&gt;
-&lt;p&gt;切换到elasticsearch目录，通过
-      
-    
-    </summary>
-    
-    
-      <category term="elk" scheme="http://zhuangyea.github.io/tags/elk/"/>
-    
-  </entry>
-  
-  <entry>
     <title>SpringBoot连接MongoDB(单节点)</title>
     <link href="http://zhuangyea.github.io/2019/03/25/java/SpringBoot%E8%BF%9E%E6%8E%A5MongoDB(%E5%8D%95%E8%8A%82%E7%82%B9)/"/>
     <id>http://zhuangyea.github.io/2019/03/25/java/SpringBoot连接MongoDB(单节点)/</id>
@@ -548,6 +524,29 @@
       
         &lt;p&gt;pom.xml（SpringBoot版本1.5.9）&lt;/p&gt;
 &lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span clas
+      
+    
+    </summary>
+    
+    
+      <category term="java" scheme="http://zhuangyea.github.io/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>springboot启动类（Application.java）中配置线程池大小</title>
+    <link href="http://zhuangyea.github.io/2019/03/25/java/thread/"/>
+    <id>http://zhuangyea.github.io/2019/03/25/java/thread/</id>
+    <published>2019-03-25T13:20:00.000Z</published>
+    <updated>2019-08-22T07:32:09.292Z</updated>
+    
+    <content type="html"><![CDATA[<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span>(name = <span class="string">"crawlExecutorPool"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ExecutorService <span class="title">crawlExecutorPool</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 获取Java虚拟机的可用的处理器数，最佳线程个数，处理器数*2。根据实际情况调整</span></span><br><span class="line">        <span class="keyword">int</span> curSystemThreads = Runtime.getRuntime().availableProcessors() * <span class="number">2</span>;</span><br><span class="line">        System.out.println(<span class="string">"------------系统可用线程池个数："</span> + curSystemThreads);</span><br><span class="line">        <span class="comment">// 创建线程池</span></span><br><span class="line">        ExecutorService pool = Executors.newFixedThreadPool(curSystemThreads);</span><br><span class="line">        <span class="keyword">return</span> pool;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure><p>使用类中注入线程池并使用</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="meta">@Qualifier</span>(value = <span class="string">"crawlExecutorPool"</span>)</span><br><span class="line"><span class="keyword">private</span> ExecutorService pool;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">crawlRedisQueue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2000000</span>; i++) &#123;</span><br><span class="line">        pool.execute(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Thread.sleep(<span class="number">3000</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">"======定时任务执行完成======"</span>);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=
       
     
     </summary>
